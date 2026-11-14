@@ -534,5 +534,8 @@
   "Some parameters could not be compared.": "일부 매개변수를 비교할 수 없습니다.",
   "Read failed. Showing the last successful reading.": "읽기에 실패했습니다. 마지막으로 성공한 읽기 결과를 표시합니다.",
   "Automatically reads the device every 5 seconds while the app is active. Pending edits are excluded.": "앱이 활성화된 동안 5초마다 기기를 자동으로 읽습니다. 적용 대기 중인 편집은 포함되지 않습니다.",
-  "Only parameters with recorded original values can be checked for modifications.": "원래 값이 기록된 매개변수만 변경 여부를 확인할 수 있습니다."
+  "Only parameters with recorded original values can be checked for modifications.": "원래 값이 기록된 매개변수만 변경 여부를 확인할 수 있습니다.",
+  "On": "켬",
+  "Off": "끔",
+  "Custom": "사용자 지정"
 }

@@ -534,5 +534,8 @@
   "Some parameters could not be compared.": "Không thể so sánh một số thông số.",
   "Read failed. Showing the last successful reading.": "Đọc thất bại. Đang hiển thị kết quả đọc thành công gần nhất.",
   "Automatically reads the device every 5 seconds while the app is active. Pending edits are excluded.": "Tự động đọc thiết bị mỗi 5 giây khi ứng dụng đang hoạt động. Không tính các chỉnh sửa chưa áp dụng.",
-  "Only parameters with recorded original values can be checked for modifications.": "Chỉ có thể kiểm tra thay đổi của thông số đã có giá trị ban đầu được ghi lại."
+  "Only parameters with recorded original values can be checked for modifications.": "Chỉ có thể kiểm tra thay đổi của thông số đã có giá trị ban đầu được ghi lại.",
+  "On": "Bật",
+  "Off": "Tắt",
+  "Custom": "Tùy chỉnh"
 }

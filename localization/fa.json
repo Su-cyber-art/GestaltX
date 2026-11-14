@@ -534,5 +534,8 @@
   "Some parameters could not be compared.": "برخی پارامترها قابل مقایسه نبودند.",
   "Read failed. Showing the last successful reading.": "خواندن ناموفق بود. نتیجه آخرین خواندن موفق نمایش داده می‌شود.",
   "Automatically reads the device every 5 seconds while the app is active. Pending edits are excluded.": "هنگام فعال بودن برنامه، دستگاه هر ۵ ثانیه خودکار خوانده می‌شود. ویرایش‌های اعمال‌نشده محاسبه نمی‌شوند.",
-  "Only parameters with recorded original values can be checked for modifications.": "فقط پارامترهایی که مقدار اصلی آن‌ها ثبت شده است، برای تغییر قابل بررسی هستند."
+  "Only parameters with recorded original values can be checked for modifications.": "فقط پارامترهایی که مقدار اصلی آن‌ها ثبت شده است، برای تغییر قابل بررسی هستند.",
+  "On": "روشن",
+  "Off": "خاموش",
+  "Custom": "سفارشی"
 }
