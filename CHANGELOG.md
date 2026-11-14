@@ -2,6 +2,20 @@
 
 English | [简体中文](CHANGELOG_ZH-CN.md)
 
+## [1.2.0] - 2026-11-14
+
+Build `11142119`.
+
+### Added
+
+- One-Click Unlock on the Tools page: stages the US region code, Apple Intelligence, Audio Intelligence, Personal Translator, Photos Clean Up, Handwriting Synthesis, Always-Listening Hey Siri, and Additional Options together, then opens the existing change review.
+- The preset resolves the device's cache layout before staging and uses the existing backup, original-value recording, and verified-write flow. An unsupported cache leaves pending edits intact. Repeated use does not create duplicate changes.
+- Regression coverage for the complete preset, existing edits, unsupported layouts, backup/readback, restoration, and all supported interface languages.
+
+### Changed
+
+- Release-note links now point to this fork's changelog. GitHub Actions runs the unlock and localization checks before packaging the IPA.
+
 ## [1.1.1] - 2026-11-14
 
 Build `11140102`.

@@ -4,7 +4,7 @@
 
 <h1 align="center">GestaltX</h1>
 
-[![Version](https://img.shields.io/badge/version-1.0.6-blue)](https://github.com/huamidev/GestaltX)
+[![Version](https://img.shields.io/badge/version-1.2.0-blue)](https://github.com/huamidev/GestaltX)
 [![Platform](https://img.shields.io/badge/iOS-27.x-black?logo=apple)](#compatibility)
 [![SwiftUI](https://img.shields.io/badge/Swift-SwiftUI-orange?logo=swift)](https://github.com/huamidev/GestaltX)
 [![License](https://img.shields.io/badge/license-GPLv3-blue)](LICENSE)
@@ -12,6 +12,12 @@
 [English](README.md) · [简体中文](README_ZH-CN.md) · [日本語](README_JA.md) · [한국어](README_KO.md)
 
 A MobileGestalt editor for iPhone and iPad. Developed by [huamidev](https://github.com/huamidev).
+
+## One-Click Unlock
+
+In **Tools**, tap **One-Click Unlock** after reading the device. It stages the US region code (`LL`), six AI/Siri capability overrides, and Additional Options, then opens **Review Changes**. Confirm the changes through the normal apply flow and restart the device afterward. The app keeps the original values and a backup before writing.
+
+The six overrides are Apple Intelligence, Audio Intelligence, Personal Translator, Photos Clean Up, Handwriting Synthesis, and Always-Listening Hey Siri. The preset uses the device's resolved cache layout for `green-tea` and `not-green-tea`. Hardware identity, the sales-region suffix, WAPI, SiriMode, and the device-specific On-Device Siri capability are preserved. Existing unrelated staged edits remain visible in the review. Capability flags do not guarantee Apple service activation or working features.
 
 ## Features
 

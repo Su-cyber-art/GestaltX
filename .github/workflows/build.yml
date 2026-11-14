@@ -60,6 +60,18 @@ jobs:
           git fetch --depth=1 origin "$DEFAULT_BRANCH"
           git checkout FETCH_HEAD -- .github/scripts/build-ipa.sh
 
+      - name: Test unlock preset and localization
+        run: |
+          # The workflow also rebuilds older release tags without this preset.
+          if [[ -n "$TAG" && ! -f tests/run_one_click_unlock.py ]]; then
+            echo "This release predates One-Click Unlock; its regression suite does not apply."
+            exit 0
+          fi
+          python3 scripts/generate_localization.py
+          python3 tests/LocalizationTests.py
+          python3 tests/run_one_click_unlock.py
+          python3 tests/run_field_manager_regression.py --test tests/FieldEditPrecedenceTests.swift
+
       - name: Restore native device console
         id: gxconsole-cache
         uses: actions/cache@v4
@@ -98,7 +110,7 @@ jobs:
           version="${TAG#v}"
           notes="$RUNNER_TEMP/release-notes.md"
           : > "$notes"
-          printf 'English | [简体中文](https://github.com/huamidev/GestaltX/blob/%s/CHANGELOG_ZH-CN.md)\n\n' "$TAG" > "$notes"
+          printf 'English | [简体中文](https://github.com/%s/blob/%s/CHANGELOG_ZH-CN.md)\n\n' "$GITHUB_REPOSITORY" "$TAG" > "$notes"
           if [[ -f CHANGELOG.md ]]; then
             awk -v ver="$version" '
               $0 ~ "^## \\[" ver "\\]" { found = 1; next }

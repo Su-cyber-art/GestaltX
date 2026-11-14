@@ -150,6 +150,9 @@ Capabilities	功能设置
 Choose what to change.	选择你想调整的功能。
 Connect or open a plist to start editing.	连接设备或打开 plist，开始编辑。
 Quick Actions	快捷操作
+One-Click Unlock	一键解锁
+Configure the US region, AI and Siri capabilities, and Additional Options together. Review and apply the changes, then restart your device.	一次配置美国地区、AI 与 Siri 能力以及额外选项。检查并应用更改后，请重新启动设备。
+These unlock settings are already applied.	这些解锁设置已应用。
 Keep a copy. Refresh when ready.	先留一份备份，准备好后再刷新。
 Back Up	备份
 Export Plist	导出 plist
