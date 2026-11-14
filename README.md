@@ -4,7 +4,7 @@
 
 <h1 align="center">GestaltX</h1>
 
-[![Version](https://img.shields.io/badge/version-1.2.0-blue)](https://github.com/huamidev/GestaltX)
+[![Version](https://img.shields.io/badge/version-1.3.0-blue)](https://github.com/huamidev/GestaltX)
 [![Platform](https://img.shields.io/badge/iOS-27.x-black?logo=apple)](#compatibility)
 [![SwiftUI](https://img.shields.io/badge/Swift-SwiftUI-orange?logo=swift)](https://github.com/huamidev/GestaltX)
 [![License](https://img.shields.io/badge/license-GPLv3-blue)](LICENSE)
@@ -18,6 +18,12 @@ A MobileGestalt editor for iPhone and iPad. Developed by [huamidev](https://gith
 In **Tools**, tap **One-Click Unlock** after reading the device. It stages the US region code (`LL`), six AI/Siri capability overrides, and Additional Options, then opens **Review Changes**. Confirm the changes through the normal apply flow and restart the device afterward. The app keeps the original values and a backup before writing.
 
 The six overrides are Apple Intelligence, Audio Intelligence, Personal Translator, Photos Clean Up, Handwriting Synthesis, and Always-Listening Hey Siri. The preset uses the device's resolved cache layout for `green-tea` and `not-green-tea`. Hardware identity, the sales-region suffix, WAPI, SiriMode, and the device-specific On-Device Siri capability are preserved. Existing unrelated staged edits remain visible in the review. Capability flags do not guarantee Apple service activation or working features.
+
+## Current Modification Status
+
+After reading the device, **Tools → Current Modification Status → Modified Parameters** shows the current cache values compared with their recorded originals. The app refreshes this reading every five seconds while active in device mode, and immediately after a verified apply or restore. You can also pull to refresh or use the refresh button.
+
+The status view reports the complete one-click unlock configuration, original/current parameter values, and the last successful read time. Pending edits remain in the editor and are excluded from the applied-change count. Errors keep the dated previous result visible. Parameters without original records cannot be classified as modified, and unknown cache layouts remain unavailable.
 
 ## Features
 

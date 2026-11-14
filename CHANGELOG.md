@@ -2,6 +2,18 @@
 
 English | [简体中文](CHANGELOG_ZH-CN.md)
 
+## [1.3.0] - 2026-11-14
+
+Build `11142151`.
+
+### Added
+
+- Current Modification Status on the Tools page shows whether the one-click unlock configuration is complete, the last successful read time, and the number of currently modified parameters.
+- The device cache is reread every five seconds while the app is active in device mode. The details page lists recorded original and current values, including dynamically decoded Additional Options and WAPI when their originals are available.
+- Status updates immediately after verified apply and restore operations. Refreshing status preserves the editor and pending changes; local documents are never presented as live device readings.
+- Read failures retain the dated last result and display the error. Missing original records and unsupported binary layouts are shown explicitly.
+- Regression coverage for actual readings, pending-edit isolation, apply/restore updates, failed-write records, typed values, external changes, read failures, cancellation, and local-document isolation. All ten interface languages are included.
+
 ## [1.2.0] - 2026-11-14
 
 Build `11142119`.

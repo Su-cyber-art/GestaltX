@@ -187,6 +187,14 @@ struct ContentView: View {
         .task(id: acceptedWelcome) {
             if acceptedWelcome && !isPreviewSession { await launchCatalog.migrateBackups() }
         }
+        .task(id: monitorsDeviceStatus) {
+            guard monitorsDeviceStatus else { return }
+            while !Task.isCancelled {
+                await model.refreshDeviceStatus()
+                do { try await Task.sleep(for: .seconds(5)) }
+                catch { return }
+            }
+        }
         .onChange(of: acceptedWelcome) { _, accepted in
             if accepted && !isPreviewSession {
                 Task { await autoRead(); showShareNoticeIfNeeded() }
@@ -229,6 +237,16 @@ struct ContentView: View {
         #else
         return false
         #endif
+    }
+
+    private var monitorsDeviceStatus: Bool {
+        acceptedWelcome && !isPreviewSession && scenePhase == .active && model.sourceIsDevice
+    }
+
+    private var deviceConnectionStatus: String {
+        guard model.hasDocument else { return model.isBusy ? "Reading…" : "Not Loaded" }
+        guard model.sourceIsDevice else { return "Local File" }
+        return model.deviceAccessible ? "Connected" : "Not Connected"
     }
 
     private func autoRead() async {
@@ -348,7 +366,7 @@ struct ContentView: View {
             Section(L("Device")) {
                 LabeledContent(L("Model"), value: model.hasDocument ? model.displayedName : UIDevice.current.model)
                 LabeledContent("iOS", value: "\(UIDevice.current.systemVersion) (\(VersionSupport.label))")
-                LabeledContent(L("Status"), value: L(model.hasDocument ? (model.sourceIsDevice ? "Connected" : "Local File") : (model.isBusy ? "Reading…" : "Not Loaded")))
+                LabeledContent(L("Status"), value: L(deviceConnectionStatus))
                 if let document = model.working {
                     LabeledContent("CacheExtra", value: String(document.extra.count))
                 }
@@ -358,6 +376,7 @@ struct ContentView: View {
                     Label(L(model.isBusy ? "Reading…" : model.hasDocument ? "Read Again" : "Read MobileGestalt"), systemImage: "arrow.clockwise")
                 }.disabled(model.isBusy || model.changeCount > 0)
             }
+            if model.sourceIsDevice { DeviceStatusSection() }
             Section {
                 Button {
                     if model.stageOneClickUnlock() {

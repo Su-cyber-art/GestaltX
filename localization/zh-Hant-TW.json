@@ -521,5 +521,18 @@
   "If this stays here, open LocalDevVPN and wait for it to finish connecting.": "如果一直停在這裡，請開啟 LocalDevVPN，等它連線完成。",
   "One-Click Unlock": "一鍵解鎖",
   "Configure the US region, AI and Siri capabilities, and Additional Options together. Review and apply the changes, then restart your device.": "一次設定美國地區、AI 與 Siri 功能及額外選項。檢查並套用變更後，請重新啟動裝置。",
-  "These unlock settings are already applied.": "這些解鎖設定已套用。"
+  "These unlock settings are already applied.": "這些解鎖設定已套用。",
+  "Current Modification Status": "目前修改狀態",
+  "One-Click Unlock Configuration": "一鍵解鎖設定",
+  "Fully Configured": "已完整設定",
+  "Not Fully Configured": "尚未完整設定",
+  "Last Read": "最近讀取",
+  "Modified Parameters": "已修改參數",
+  "Original Value": "原始值",
+  "No recorded originals yet.": "尚無原值記錄。",
+  "Matches recorded originals.": "與已記錄的原值一致。",
+  "Some parameters could not be compared.": "部分參數無法比較。",
+  "Read failed. Showing the last successful reading.": "讀取失敗，目前顯示上次成功讀取的結果。",
+  "Automatically reads the device every 5 seconds while the app is active. Pending edits are excluded.": "App 在前景時每 5 秒自動讀取裝置，尚未套用的編輯不計入目前狀態。",
+  "Only parameters with recorded original values can be checked for modifications.": "僅能判斷已有原值記錄的參數是否發生變更。"
 }

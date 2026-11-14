@@ -19,6 +19,8 @@ final class GestaltManager: ObservableObject {
     @Published private(set) var isBusy = false
     @Published private(set) var status = "Connect to your device or open a plist."
     @Published private(set) var deviceAccessible = false
+    @Published private(set) var deviceStatus: DeviceStatusReading?
+    @Published private(set) var deviceStatusError: String?
     @Published private(set) var backups: [BackupRecord] = []
     @Published private(set) var logs: [String] = []
     @Published var message: String?
@@ -151,8 +153,7 @@ final class GestaltManager: ObservableObject {
             working = document
             cacheOptionChoice = .enable
             regionCodeID = "US"
-            for id in ["ai", "audioIntelligence", "personalTranslator", "photosCleanUp",
-                       "handwritingSynthesis", "alwaysListeningSiri"] {
+            for id in Capability.oneClickUnlockIDs {
                 choices[id] = .enable
             }
             return true
@@ -212,6 +213,7 @@ final class GestaltManager: ObservableObject {
             } else {
                 logChanges(from: before.document, to: restored, prefix: "[restore-option] ")
                 result = try await files.commit(restored, expected: before)
+                recordDeviceReading(result)
                 needsRespring = result.source == .device
                 message = L(result.source == .device
                             ? "Write verified. Some features require a device restart."
@@ -261,6 +263,7 @@ final class GestaltManager: ObservableObject {
             } else {
                 for line in diffLines(before.document.extra, restored.extra) { log("[restore-field] " + line) }
                 result = try await files.commit(restored, expected: before, originallyAbsentKeys: absentKeys)
+                recordDeviceReading(result)
                 needsRespring = result.source == .device
                 message = L(result.source == .device ? "Original values restored." : "Local changes saved. Export the plist to keep a copy.")
             }
@@ -359,15 +362,42 @@ final class GestaltManager: ObservableObject {
         defer { isBusy = false }
         do {
             let result = try await files.loadDevice()
-            accept(result); deviceAccessible = true; status = "Device connected"
+            accept(result); status = "Device connected"
+            recordDeviceReading(result)
             log("[read] plist: \(result.data.count) bytes")
             for line in summarize(result.document) { log("[read] " + line) }
             log(L("Device connected"))
         } catch {
             deviceAccessible = false; status = "Device access unavailable"
+            deviceStatusError = error.localizedDescription
             if showErrorAlert { failed(error) } else { log(error.localizedDescription) }
         }
         await reloadBackups()
+    }
+
+    private func recordDeviceReading(_ loaded: DocumentSnapshot) {
+        guard loaded.source == .device else { return }
+        deviceStatus = DeviceStatusReading(readAt: Date(), report: DeviceModificationReport(snapshot: loaded))
+        deviceStatusError = nil
+        deviceAccessible = true
+    }
+
+    func refreshDeviceStatus() async {
+        guard sourceIsDevice, !isBusy else { return }
+        isBusy = true
+        defer { isBusy = false }
+        do {
+            let loaded = try await files.loadDevice()
+            try Task.checkCancellation()
+            recordDeviceReading(loaded)
+            // Status reads do not replace the editor's document or draft values.
+            // The normal commit check still detects conflicting external writes.
+        } catch is CancellationError {
+            return
+        } catch {
+            deviceStatusError = error.localizedDescription
+            deviceAccessible = false
+        }
     }
 
     #if targetEnvironment(simulator)
@@ -472,6 +502,7 @@ final class GestaltManager: ObservableObject {
             let restored = try await files.restoreVerifiedImport(imported, expected: live)
             let changed = !restored.document.matches(live.document)
             accept(restored); needsRespring = needsRespring || changed
+            recordDeviceReading(restored)
             status = "Changes verified on device"
             message = changed ? L("Backup restored and verified.") + " " + L("Some changes require a device restart.")
                 : L("This backup already matches the device. No changes were made.")
@@ -540,6 +571,7 @@ final class GestaltManager: ObservableObject {
             let absentKeys = Set(Capability.all.filter { choices[$0.id] == .removeAdded }.flatMap(\.keys))
             let result = try await files.commit(edited, expected: snapshot, originallyAbsentKeys: absentKeys)
             accept(result); needsRespring = result.source == .device
+            recordDeviceReading(result)
             status = result.source == .device ? "Changes verified on device" : "Local changes saved"
             message = L(result.source == .device
                         ? "Write verified. Some features require a device restart."
@@ -584,6 +616,7 @@ final class GestaltManager: ObservableObject {
             logChanges(from: live.document, to: result.document, prefix: "[restore-hardware] ")
             let changed = !result.document.matches(live.document)
             accept(result)
+            recordDeviceReading(result)
             needsRespring = needsRespring || changed
             message = L(changed ? "Backup restored and verified." : "This backup already matches the device. No changes were made.")
                 + " " + L("Some changes require a device restart.")
@@ -605,6 +638,7 @@ final class GestaltManager: ObservableObject {
             let result = try await files.commit(restored, expected: snapshot, restoring: record)
             let changed = !result.document.matches(snapshot.document)
             accept(result); needsRespring = result.source == .device && (needsRespring || changed)
+            recordDeviceReading(result)
             message = L(result.source == .device
                         ? (changed ? "Backup restored and verified." : "This backup already matches the device. No changes were made.")
                         : "Backup opened as a local document.")
