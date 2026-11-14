@@ -534,5 +534,8 @@
   "Some parameters could not be compared.": "Некоторые параметры не удалось сравнить.",
   "Read failed. Showing the last successful reading.": "Ошибка чтения. Показан результат последнего успешного чтения.",
   "Automatically reads the device every 5 seconds while the app is active. Pending edits are excluded.": "Данные устройства считываются каждые 5 секунд, пока приложение активно. Неприменённые изменения не учитываются.",
-  "Only parameters with recorded original values can be checked for modifications.": "Проверить изменения можно только для параметров с записанными исходными значениями."
+  "Only parameters with recorded original values can be checked for modifications.": "Проверить изменения можно только для параметров с записанными исходными значениями.",
+  "On": "Вкл.",
+  "Off": "Выкл.",
+  "Custom": "Другое"
 }

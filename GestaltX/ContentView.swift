@@ -49,7 +49,7 @@ struct ContentView: View {
                 .tabItem { Label(L("About"), systemImage: "info.circle") }.tag(3)
         }
         .environmentObject(model)
-        .tint(.blue)
+        .tint(Color.gestaltAccent)
         #if targetEnvironment(simulator)
         .sheet(item: $previewCategory) { category in
             NavigationStack { CategoryView(category: category) }.environmentObject(model)
@@ -387,9 +387,22 @@ struct ContentView: View {
                         }
                     }
                 } label: {
-                    Label(L("One-Click Unlock"), systemImage: "sparkles")
-                        .fontWeight(.semibold)
+                    HStack(spacing: 12) {
+                        Image(systemName: "sparkles").font(.title3)
+                        Text(L("One-Click Unlock")).fontWeight(.semibold)
+                        Spacer(minLength: 8)
+                        Image(systemName: "chevron.right").font(.caption.weight(.semibold)).opacity(0.85)
+                    }
+                    .foregroundStyle(.white)
+                    .padding(.vertical, 14).padding(.horizontal, 16)
+                    .frame(maxWidth: .infinity)
+                    .background(RoundedRectangle(cornerRadius: 14, style: .continuous).fill(GestaltTheme.gradient))
+                    .opacity(!model.hasDocument || model.isBusy ? 0.5 : 1)
+                    .shadow(color: GestaltTheme.accent.opacity(0.28), radius: 8, y: 4)
                 }
+                .buttonStyle(.plain)
+                .listRowInsets(EdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 16))
+                .listRowBackground(Color.clear)
                 .disabled(!model.hasDocument || model.isBusy)
                 .accessibilityIdentifier("one-click-unlock")
             } footer: {
@@ -433,7 +446,7 @@ struct ContentView: View {
                         Spacer()
                         if model.changeCount > 0 { Text(String(model.changeCount)).foregroundStyle(.secondary) }
                     }
-                    .foregroundStyle(model.changeCount == 0 || model.isBusy ? Color(uiColor: .tertiaryLabel) : Color.blue)
+                    .foregroundStyle(model.changeCount == 0 || model.isBusy ? Color(uiColor: .tertiaryLabel) : Color.gestaltAccent)
                 }
                 .disabled(model.changeCount == 0 || model.isBusy)
                 Button(role: .destructive) { model.clearStaged() } label: {
@@ -508,6 +521,9 @@ struct CategoryView: View {
                     Picker(L("Region Code"), selection: $model.regionCodeID) {
                         ForEach(RegionPreset.all) { Text(L($0.title)).tag($0.id) }
                     }
+                    if let current = model.currentText(for: GestaltKeys.regionCode) {
+                        Text(L("Current Value") + ": " + current).font(.caption).foregroundStyle(.secondary)
+                    }
                     if model.regionCodeID != "keep" { Text(L("A device restart may be required.")).font(.caption).foregroundStyle(.secondary) }
                 } footer: {
                     VStack(alignment: .leading, spacing: 6) {
@@ -519,6 +535,9 @@ struct CategoryView: View {
                     Picker(L("Sales Region"), selection: $model.regionID) {
                         ForEach(RegionPreset.all) { Text(L($0.title)).tag($0.id) }
                     }
+                    if let current = model.currentText(for: GestaltKeys.regionInfo) {
+                        Text(L("Current Value") + ": " + current).font(.caption).foregroundStyle(.secondary)
+                    }
                     if model.regionID != "keep" { Text(L("Restart the device after changing the region.")).font(.caption).foregroundStyle(.secondary) }
                 } footer: {
                     Text(L("Changing the sales-region suffix may cause verification tools to report a mismatch with factory information."))
@@ -526,6 +545,9 @@ struct CategoryView: View {
                 Section {
                     Picker(L("Model Number"), selection: $model.modelID) {
                         ForEach(ModelPreset.all) { Text(L($0.title)).tag($0.id) }
+                    }
+                    if let current = model.currentText(for: GestaltKeys.modelNumber) {
+                        Text(L("Current Value") + ": " + current).font(.caption).foregroundStyle(.secondary)
                     }
                     HStack(alignment: .firstTextBaseline) {
                         if model.modelID != "keep" {
@@ -542,46 +564,7 @@ struct CategoryView: View {
             }
             Section {
                 ForEach(Capability.all.filter { $0.category == category }) { capability in
-                    VStack(alignment: .leading, spacing: 4) {
-                    Picker(selection: Binding(
-                        get: { model.choices[capability.id] ?? .keep },
-                        set: {
-                            if capability.requiresEnableConfirmation, $0 == .enable,
-                               model.choices[capability.id] != .enable {
-                                asksInternalBuild = true
-                                return
-                            }
-                            model.choices[capability.id] = $0
-                            if capability.id == "dynamicIsland" && $0 != .keep { model.subtype = 0 }
-                        }
-                    )) {
-                        ForEach(capability.availableChoices) { choice in
-                            let title = capability.id == "siriOnDevice" && choice == .disable
-                                ? "Restore Original" : choice.title
-                            Text(L(title)).tag(choice)
-                        }
-                    } label: {
-                        HStack(spacing: 6) {
-                            Text(L(capability.title))
-                            if capability.caution {
-                                Image(systemName: "exclamationmark.triangle").font(.caption2).foregroundStyle(.orange)
-                                    .accessibilityLabel(L("Experimental"))
-                            }
-                        }
-                    }.pickerStyle(.menu)
-                    if capability.requiresEnableConfirmation || capability.id == "siriOnDevice" || capability.id == "siriAIMode" {
-                        Text(L(capability.detail)).font(.caption).foregroundStyle(.secondary)
-                    }
-                    HStack(alignment: .firstTextBaseline) {
-                        if (model.choices[capability.id] ?? .keep) != .keep {
-                            Text(L(capability.effectHint)).font(.caption).foregroundStyle(.secondary)
-                        }
-                        Spacer(minLength: 8)
-                        Button(L("Revert")) { Task { await model.restoreCapability(capability) } }
-                            .font(.caption).buttonStyle(.borderless)
-                            .disabled(!model.canRestore(capability))
-                    }
-                    }
+                    CapabilityRow(capability: capability, asksInternalBuild: $asksInternalBuild)
                 }
                 if category == .device {
                     AdditionalOptionsRow()
@@ -613,6 +596,74 @@ struct CategoryView: View {
         } message: {
             Text(L("This stages the system-wide InternalBuild flag. It can affect system services beyond the storage screen. You can review the change before applying it."))
         }
+    }
+}
+
+struct CapabilityRow: View {
+    let capability: Capability
+    @Binding var asksInternalBuild: Bool
+    @EnvironmentObject private var model: GestaltManager
+
+    private var currentAction: PresetChoice { model.choices[capability.id] ?? .keep }
+
+    private func title(for choice: PresetChoice) -> String {
+        capability.id == "siriOnDevice" && choice == .disable ? "Restore Original" : choice.title
+    }
+
+    private func select(_ choice: PresetChoice) {
+        if capability.requiresEnableConfirmation, choice == .enable, currentAction != .enable {
+            asksInternalBuild = true
+            return
+        }
+        model.choices[capability.id] = choice
+        if capability.id == "dynamicIsland" && choice != .keep { model.subtype = 0 }
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Menu {
+                ForEach(capability.availableChoices) { choice in
+                    Button { select(choice) } label: {
+                        if currentAction == choice {
+                            Label(L(title(for: choice)), systemImage: "checkmark")
+                        } else {
+                            Text(L(title(for: choice)))
+                        }
+                    }
+                }
+            } label: {
+                HStack(spacing: 10) {
+                    HStack(spacing: 6) {
+                        Text(L(capability.title)).foregroundStyle(.primary)
+                        if capability.caution {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .font(.caption2).foregroundStyle(.orange)
+                                .accessibilityLabel(L("Experimental"))
+                        }
+                    }
+                    Spacer(minLength: 8)
+                    CapabilityStatusView(current: model.state(of: capability), isStaged: currentAction != .keep)
+                    Image(systemName: "chevron.up.chevron.down")
+                        .font(.caption2).foregroundStyle(.tertiary)
+                }
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+
+            if capability.requiresEnableConfirmation || capability.id == "siriOnDevice" || capability.id == "siriAIMode" {
+                Text(L(capability.detail)).font(.caption).foregroundStyle(.secondary)
+            }
+            HStack(alignment: .firstTextBaseline) {
+                if currentAction != .keep {
+                    Text(L(capability.effectHint)).font(.caption).foregroundStyle(.secondary)
+                }
+                Spacer(minLength: 8)
+                Button(L("Revert")) { Task { await model.restoreCapability(capability) } }
+                    .font(.caption).buttonStyle(.borderless)
+                    .disabled(!model.canRestore(capability))
+            }
+        }
+        .padding(.vertical, 2)
     }
 }
 
@@ -957,7 +1008,6 @@ struct BrandMark: View {
             .clipShape(RoundedRectangle(cornerRadius: size * 0.22, style: .continuous)).accessibilityHidden(true)
     }
 }
-extension Color { static let gestaltAccent = Color.blue }
 struct ShareSheet: UIViewControllerRepresentable {
     let export: TemporaryExport
     func makeUIViewController(context: Context) -> UIActivityViewController {

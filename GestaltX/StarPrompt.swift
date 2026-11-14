@@ -14,7 +14,7 @@ final class StarPromptController: ObservableObject {
 
     private let defaults = UserDefaults.standard
     private var didSchedule = false
-    private let repositoryURL = URL(string: "https://github.com/huamidev/GestaltX")!
+    private let repositoryURL = URL(string: "https://github.com/Su-cyber-art/GestaltX")!
 
     private enum Key {
         static let state = "GestaltX.starPrompt.state"

@@ -27,7 +27,7 @@ struct AboutView: View {
             Section(L("Special Thanks")) {
                 Link(destination: URL(string: "https://github.com/forcequitOS/worse_query")!) {
                     HStack(spacing: 12) {
-                        Image(systemName: "cpu").font(.title3).foregroundStyle(.blue)
+                        Image(systemName: "cpu").font(.title3).foregroundStyle(Color.gestaltAccent)
                         VStack(alignment: .leading, spacing: 4) {
                             Text("worse_query").font(.headline).foregroundStyle(.primary)
                             Text("forcequitOS · Taj C").font(.caption).foregroundStyle(.secondary)

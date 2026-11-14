@@ -534,5 +534,8 @@
   "Some parameters could not be compared.": "No se pudieron comparar algunos parámetros.",
   "Read failed. Showing the last successful reading.": "Error de lectura. Se muestra la última lectura correcta.",
   "Automatically reads the device every 5 seconds while the app is active. Pending edits are excluded.": "Lee el dispositivo automáticamente cada 5 segundos mientras la app está activa. No incluye los cambios pendientes.",
-  "Only parameters with recorded original values can be checked for modifications.": "Solo se pueden comprobar modificaciones en parámetros cuyos valores originales estén registrados."
+  "Only parameters with recorded original values can be checked for modifications.": "Solo se pueden comprobar modificaciones en parámetros cuyos valores originales estén registrados.",
+  "On": "Activado",
+  "Off": "Desactivado",
+  "Custom": "Personalizado"
 }

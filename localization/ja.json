@@ -534,5 +534,8 @@
   "Some parameters could not be compared.": "一部のパラメータを比較できませんでした。",
   "Read failed. Showing the last successful reading.": "読み取りに失敗しました。最後に成功した読み取り結果を表示しています。",
   "Automatically reads the device every 5 seconds while the app is active. Pending edits are excluded.": "アプリがアクティブな間、5 秒ごとにデバイスを自動で読み取ります。未適用の編集は含まれません。",
-  "Only parameters with recorded original values can be checked for modifications.": "元の値が記録されているパラメータのみ、変更の有無を確認できます。"
+  "Only parameters with recorded original values can be checked for modifications.": "元の値が記録されているパラメータのみ、変更の有無を確認できます。",
+  "On": "オン",
+  "Off": "オフ",
+  "Custom": "カスタム"
 }
