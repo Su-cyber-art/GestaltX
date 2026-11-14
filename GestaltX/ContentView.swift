@@ -358,6 +358,24 @@ struct ContentView: View {
                     Label(L(model.isBusy ? "Reading…" : model.hasDocument ? "Read Again" : "Read MobileGestalt"), systemImage: "arrow.clockwise")
                 }.disabled(model.isBusy || model.changeCount > 0)
             }
+            Section {
+                Button {
+                    if model.stageOneClickUnlock() {
+                        if model.changeCount > 0 {
+                            showsChanges = true
+                        } else {
+                            model.message = L("These unlock settings are already applied.")
+                        }
+                    }
+                } label: {
+                    Label(L("One-Click Unlock"), systemImage: "sparkles")
+                        .fontWeight(.semibold)
+                }
+                .disabled(!model.hasDocument || model.isBusy)
+                .accessibilityIdentifier("one-click-unlock")
+            } footer: {
+                Text(L("Configure the US region, AI and Siri capabilities, and Additional Options together. Review and apply the changes, then restart your device."))
+            }
             Section(L("Device Pairing")) {
                 NavigationLink { DeviceConnectionView() } label: {
                     Label(L("Pairing & Device Connection"), systemImage: "link.badge.plus")

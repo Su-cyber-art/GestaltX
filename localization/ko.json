@@ -518,5 +518,8 @@
   "Maybe Later": "나중에",
   "Don't Ask Again": "다시 묻지 않기",
   "Cannot reach the device console. Open LocalDevVPN, wait for it to connect, then try again.": "기기 콘솔에 연결할 수 없습니다. LocalDevVPN을 열고 연결될 때까지 기다린 후 다시 시도하세요.",
-  "If this stays here, open LocalDevVPN and wait for it to finish connecting.": "여기서 멈춰 있으면 LocalDevVPN을 열고 연결이 완료될 때까지 기다리세요."
+  "If this stays here, open LocalDevVPN and wait for it to finish connecting.": "여기서 멈춰 있으면 LocalDevVPN을 열고 연결이 완료될 때까지 기다리세요.",
+  "One-Click Unlock": "한 번에 잠금 해제",
+  "Configure the US region, AI and Siri capabilities, and Additional Options together. Review and apply the changes, then restart your device.": "미국 지역, AI 및 Siri 기능과 추가 옵션을 함께 설정합니다. 변경 사항을 검토하고 적용한 다음 기기를 재시동하세요.",
+  "These unlock settings are already applied.": "이 잠금 해제 설정이 이미 적용되어 있습니다."
 }

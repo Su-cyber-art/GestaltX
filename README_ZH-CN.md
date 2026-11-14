@@ -4,7 +4,7 @@
 
 <h1 align="center">GestaltX</h1>
 
-[![Version](https://img.shields.io/badge/version-1.0.6-blue)](https://github.com/huamidev/GestaltX)
+[![Version](https://img.shields.io/badge/version-1.2.0-blue)](https://github.com/huamidev/GestaltX)
 [![Platform](https://img.shields.io/badge/iOS-27.x-black?logo=apple)](#兼容性)
 [![SwiftUI](https://img.shields.io/badge/Swift-SwiftUI-orange?logo=swift)](https://github.com/huamidev/GestaltX)
 [![License](https://img.shields.io/badge/license-GPLv3-blue)](LICENSE)
@@ -12,6 +12,12 @@
 [English](README.md) · [简体中文](README_ZH-CN.md) · [日本語](README_JA.md) · [한국어](README_KO.md)
 
 适用于 iPhone 和 iPad 的 MobileGestalt 编辑工具，由 [huamidev](https://github.com/huamidev) 开发。
+
+## 一键解锁
+
+读取设备后，在**工具**首页点击**一键解锁**，即可一次暂存美国地区代码（`LL`）、六个 AI/Siri 能力覆盖值和额外选项，并打开**查看更改**页面。通过现有应用流程确认写入后，请重新启动设备。写入前会保留原值和备份。
+
+六项能力为 Apple 智能、音频智能、个人翻译、照片消除、手写合成和常听 Hey Siri。`green-tea`、`not-green-tea` 使用本机解析出的缓存布局。硬件身份、销售地区后缀、WAPI、SiriMode 和设备自身的端侧 Siri 能力保持原值；已有的其他暂存编辑会一并显示供确认。功能标记不保证 Apple 服务激活或实际功能可用。
 
 ## 功能
 

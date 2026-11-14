@@ -518,5 +518,8 @@
   "Maybe Later": "あとで",
   "Don't Ask Again": "今後表示しない",
   "Cannot reach the device console. Open LocalDevVPN, wait for it to connect, then try again.": "デバイスコンソールに接続できません。LocalDevVPN を開いて接続を待ち、もう一度お試しください。",
-  "If this stays here, open LocalDevVPN and wait for it to finish connecting.": "ここから進まない場合は、LocalDevVPN を開いて接続が完了するまで待ってください。"
+  "If this stays here, open LocalDevVPN and wait for it to finish connecting.": "ここから進まない場合は、LocalDevVPN を開いて接続が完了するまで待ってください。",
+  "One-Click Unlock": "ワンタップ解除",
+  "Configure the US region, AI and Siri capabilities, and Additional Options together. Review and apply the changes, then restart your device.": "米国の地域、AI と Siri の機能、および追加オプションをまとめて設定します。変更を確認して適用した後、デバイスを再起動してください。",
+  "These unlock settings are already applied.": "これらの解除設定はすでに適用されています。"
 }

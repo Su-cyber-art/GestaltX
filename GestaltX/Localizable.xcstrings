@@ -9473,6 +9473,198 @@
         }
       }
     },
+    "One-Click Unlock": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One-Click Unlock"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一键解锁"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desbloqueo con un toque"
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "باز کردن با یک لمس"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ワンタップ解除"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "한 번에 잠금 해제"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разблокировать одним нажатием"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mở khóa bằng một chạm"
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一鍵解鎖"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一鍵解鎖"
+          }
+        }
+      }
+    },
+    "Configure the US region, AI and Siri capabilities, and Additional Options together. Review and apply the changes, then restart your device.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configure the US region, AI and Siri capabilities, and Additional Options together. Review and apply the changes, then restart your device."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一次配置美国地区、AI 与 Siri 能力以及额外选项。检查并应用更改后，请重新启动设备。"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configura a la vez la región de Estados Unidos, las capacidades de IA y Siri y las opciones adicionales. Revisa y aplica los cambios y reinicia el dispositivo."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "منطقه آمریکا، قابلیت‌های هوش مصنوعی و Siri و گزینه‌های اضافی را با هم تنظیم کنید. تغییرات را بررسی و اعمال کنید، سپس دستگاه را دوباره راه‌اندازی کنید."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "米国の地域、AI と Siri の機能、および追加オプションをまとめて設定します。変更を確認して適用した後、デバイスを再起動してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "미국 지역, AI 및 Siri 기능과 추가 옵션을 함께 설정합니다. 변경 사항을 검토하고 적용한 다음 기기를 재시동하세요."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настройте регион США, возможности AI и Siri и дополнительные параметры вместе. Проверьте и примените изменения, затем перезагрузите устройство."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thiết lập vùng Hoa Kỳ, các tính năng AI và Siri cùng Tùy chọn bổ sung. Xem lại và áp dụng thay đổi, sau đó khởi động lại thiết bị."
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一次設定美國地區、AI 與 Siri 功能及額外選項。檢查並套用變更後，請重新啟動裝置。"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一次設定美國地區、AI 與 Siri 功能及額外選項。檢查並套用變更後，請重新啟動裝置。"
+          }
+        }
+      }
+    },
+    "These unlock settings are already applied.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "These unlock settings are already applied."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这些解锁设置已应用。"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estos ajustes de desbloqueo ya están aplicados."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "این تنظیمات باز کردن قبلاً اعمال شده‌اند."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "これらの解除設定はすでに適用されています。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 잠금 해제 설정이 이미 적용되어 있습니다."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Эти настройки разблокировки уже применены."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Các thiết lập mở khóa này đã được áp dụng."
+          }
+        },
+        "zh-Hant-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "這些解鎖設定已套用。"
+          }
+        },
+        "zh-Hant-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "這些解鎖設定已套用。"
+          }
+        }
+      }
+    },
     "Keep a copy. Refresh when ready.": {
       "localizations": {
         "en": {

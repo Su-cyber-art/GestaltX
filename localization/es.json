@@ -518,5 +518,8 @@
   "Maybe Later": "Más tarde",
   "Don't Ask Again": "No volver a preguntar",
   "Cannot reach the device console. Open LocalDevVPN, wait for it to connect, then try again.": "No se puede conectar con la consola del dispositivo. Abre LocalDevVPN, espera a que conecte y vuelve a intentarlo.",
-  "If this stays here, open LocalDevVPN and wait for it to finish connecting.": "Si se queda aquí, abre LocalDevVPN y espera a que termine de conectar."
+  "If this stays here, open LocalDevVPN and wait for it to finish connecting.": "Si se queda aquí, abre LocalDevVPN y espera a que termine de conectar.",
+  "One-Click Unlock": "Desbloqueo con un toque",
+  "Configure the US region, AI and Siri capabilities, and Additional Options together. Review and apply the changes, then restart your device.": "Configura a la vez la región de Estados Unidos, las capacidades de IA y Siri y las opciones adicionales. Revisa y aplica los cambios y reinicia el dispositivo.",
+  "These unlock settings are already applied.": "Estos ajustes de desbloqueo ya están aplicados."
 }

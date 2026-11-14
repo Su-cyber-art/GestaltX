@@ -143,6 +143,25 @@ final class GestaltManager: ObservableObject {
         if let snapshot { accept(snapshot) }
     }
 
+    func stageOneClickUnlock() -> Bool {
+        guard !isBusy, var document = working else { return false }
+        do {
+            // Resolve and validate this device's cache before staging any part of the bundle.
+            try document.setCacheOptions(.enabled)
+            working = document
+            cacheOptionChoice = .enable
+            regionCodeID = "US"
+            for id in ["ai", "audioIntelligence", "personalTranslator", "photosCleanUp",
+                       "handwritingSynthesis", "alwaysListeningSiri"] {
+                choices[id] = .enable
+            }
+            return true
+        } catch {
+            failed(error)
+            return false
+        }
+    }
+
     func stageCacheOption(_ choice: CacheOptionChoice) {
         guard !isBusy, var document = working, let snapshot else { return }
         do {
@@ -522,9 +541,8 @@ final class GestaltManager: ObservableObject {
             let result = try await files.commit(edited, expected: snapshot, originallyAbsentKeys: absentKeys)
             accept(result); needsRespring = result.source == .device
             status = result.source == .device ? "Changes verified on device" : "Local changes saved"
-            let changedCacheOption = !DeviceCacheOptions.changes(from: snapshot.document, to: edited).isEmpty
             message = L(result.source == .device
-                        ? (changedCacheOption ? "Write verified. Some features require a device restart." : "Write verified. Some features require a device restart.")
+                        ? "Write verified. Some features require a device restart."
                         : "Local changes saved. Export the plist to keep a copy.")
             log(L(status)); await reloadBackups()
         } catch { failed(error); await reloadBackups() }
