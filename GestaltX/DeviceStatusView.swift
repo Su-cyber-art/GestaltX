@@ -5,7 +5,7 @@ struct DeviceStatusSection: View {
     @EnvironmentObject private var model: GestaltManager
 
     var body: some View {
-        Section(L("Current Modification Status")) {
+        Section {
             DeviceStatusReadingRows()
             NavigationLink {
                 DeviceStatusView()
@@ -20,6 +20,8 @@ struct DeviceStatusSection: View {
                 }
             }
             LabeledContent(L("Pending Changes"), value: String(model.changeCount))
+        } header: {
+            Text(L("Current Modification Status"))
         } footer: {
             Text(L("Automatically reads the device every 5 seconds while the app is active. Pending edits are excluded."))
         }
