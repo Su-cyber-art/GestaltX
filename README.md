@@ -4,7 +4,7 @@
 
 <h1 align="center">GestaltX</h1>
 
-[![Version](https://img.shields.io/badge/version-1.3.0-blue)](https://github.com/Su-cyber-art/GestaltX)
+[![Version](https://img.shields.io/badge/version-1.4.0-blue)](https://github.com/Su-cyber-art/GestaltX)
 [![Platform](https://img.shields.io/badge/iOS-27.x-black?logo=apple)](#compatibility)
 [![SwiftUI](https://img.shields.io/badge/Swift-SwiftUI-orange?logo=swift)](https://github.com/Su-cyber-art/GestaltX)
 [![License](https://img.shields.io/badge/license-GPLv3-blue)](LICENSE)
