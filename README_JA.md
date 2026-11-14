@@ -43,7 +43,7 @@ iPhone と iPad 向けの MobileGestalt エディターです。開発者は [hu
 
 ## ダウンロード
 
-IPA は [Releases](https://github.com/huamidev/GestaltX/releases/latest) からダウンロードしてください。
+IPA は [Releases](https://github.com/Su-cyber-art/GestaltX/releases/latest) からダウンロードしてください。
 iOS 27 の Safari でダウンロードが不完全になるという報告があります。
 破損や解凍エラーが表示された場合は、数回ダウンロードし直してください。
 改善しない場合は別のブラウザをお試しください。原因はまだ確認されていません。

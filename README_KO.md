@@ -53,7 +53,7 @@ AI 활성화는 보통 지역 코드만 바꿔서 시도할 수 있습니다. �
 
 ## 다운로드
 
-[릴리스](https://github.com/huamidev/GestaltX/releases/latest)에서 IPA를 다운로드하세요.
+[릴리스](https://github.com/Su-cyber-art/GestaltX/releases/latest)에서 IPA를 다운로드하세요.
 일부 사용자는 iOS 27의 Safari에서 파일이 끝까지 다운로드되지 않는 문제를 겪었다고 합니다. 파일이 손상되었다고 나오거나 압축이 풀리지 않으면 다시 다운로드하세요. 여러 번 시도해야 할 수도 있습니다. 계속 문제가 생기면 다른 브라우저를 사용해 보세요. 원인은 아직 확인되지 않았습니다.
 
 ## plist 가져오기

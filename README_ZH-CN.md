@@ -49,7 +49,7 @@
 
 ## 下载
 
-请在 [Releases](https://github.com/huamidev/GestaltX/releases/latest) 下载 IPA。
+请在 [Releases](https://github.com/Su-cyber-art/GestaltX/releases/latest) 下载 IPA。
 部分用户反馈，iOS 27 上使用 Safari 下载的文件可能不完整。
 如果提示文件损坏或无法解压，可重新下载几次；仍有问题时换用其他浏览器。
 目前尚未确认具体原因。
