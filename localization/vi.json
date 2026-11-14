@@ -521,5 +521,18 @@
   "If this stays here, open LocalDevVPN and wait for it to finish connecting.": "Nếu màn hình đứng ở đây, hãy mở LocalDevVPN và đợi kết nối hoàn tất.",
   "One-Click Unlock": "Mở khóa bằng một chạm",
   "Configure the US region, AI and Siri capabilities, and Additional Options together. Review and apply the changes, then restart your device.": "Thiết lập vùng Hoa Kỳ, các tính năng AI và Siri cùng Tùy chọn bổ sung. Xem lại và áp dụng thay đổi, sau đó khởi động lại thiết bị.",
-  "These unlock settings are already applied.": "Các thiết lập mở khóa này đã được áp dụng."
+  "These unlock settings are already applied.": "Các thiết lập mở khóa này đã được áp dụng.",
+  "Current Modification Status": "Trạng thái thay đổi hiện tại",
+  "One-Click Unlock Configuration": "Cấu hình mở khóa một chạm",
+  "Fully Configured": "Đã cấu hình đầy đủ",
+  "Not Fully Configured": "Chưa cấu hình đầy đủ",
+  "Last Read": "Lần đọc gần nhất",
+  "Modified Parameters": "Thông số đã thay đổi",
+  "Original Value": "Giá trị ban đầu",
+  "No recorded originals yet.": "Chưa có giá trị ban đầu được ghi lại.",
+  "Matches recorded originals.": "Khớp với các giá trị ban đầu đã ghi lại.",
+  "Some parameters could not be compared.": "Không thể so sánh một số thông số.",
+  "Read failed. Showing the last successful reading.": "Đọc thất bại. Đang hiển thị kết quả đọc thành công gần nhất.",
+  "Automatically reads the device every 5 seconds while the app is active. Pending edits are excluded.": "Tự động đọc thiết bị mỗi 5 giây khi ứng dụng đang hoạt động. Không tính các chỉnh sửa chưa áp dụng.",
+  "Only parameters with recorded original values can be checked for modifications.": "Chỉ có thể kiểm tra thay đổi của thông số đã có giá trị ban đầu được ghi lại."
 }

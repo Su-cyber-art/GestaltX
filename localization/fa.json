@@ -521,5 +521,18 @@
   "If this stays here, open LocalDevVPN and wait for it to finish connecting.": "اگر همین‌جا ماند، LocalDevVPN را باز کنید و منتظر تکمیل اتصال بمانید.",
   "One-Click Unlock": "باز کردن با یک لمس",
   "Configure the US region, AI and Siri capabilities, and Additional Options together. Review and apply the changes, then restart your device.": "منطقه آمریکا، قابلیت‌های هوش مصنوعی و Siri و گزینه‌های اضافی را با هم تنظیم کنید. تغییرات را بررسی و اعمال کنید، سپس دستگاه را دوباره راه‌اندازی کنید.",
-  "These unlock settings are already applied.": "این تنظیمات باز کردن قبلاً اعمال شده‌اند."
+  "These unlock settings are already applied.": "این تنظیمات باز کردن قبلاً اعمال شده‌اند.",
+  "Current Modification Status": "وضعیت فعلی تغییرات",
+  "One-Click Unlock Configuration": "پیکربندی باز کردن با یک لمس",
+  "Fully Configured": "پیکربندی کامل است",
+  "Not Fully Configured": "پیکربندی کامل نیست",
+  "Last Read": "آخرین خواندن",
+  "Modified Parameters": "پارامترهای تغییر یافته",
+  "Original Value": "مقدار اصلی",
+  "No recorded originals yet.": "هنوز مقدار اصلی ثبت نشده است.",
+  "Matches recorded originals.": "با مقادیر اصلی ثبت‌شده مطابقت دارد.",
+  "Some parameters could not be compared.": "برخی پارامترها قابل مقایسه نبودند.",
+  "Read failed. Showing the last successful reading.": "خواندن ناموفق بود. نتیجه آخرین خواندن موفق نمایش داده می‌شود.",
+  "Automatically reads the device every 5 seconds while the app is active. Pending edits are excluded.": "هنگام فعال بودن برنامه، دستگاه هر ۵ ثانیه خودکار خوانده می‌شود. ویرایش‌های اعمال‌نشده محاسبه نمی‌شوند.",
+  "Only parameters with recorded original values can be checked for modifications.": "فقط پارامترهایی که مقدار اصلی آن‌ها ثبت شده است، برای تغییر قابل بررسی هستند."
 }

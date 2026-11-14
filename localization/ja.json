@@ -521,5 +521,18 @@
   "If this stays here, open LocalDevVPN and wait for it to finish connecting.": "ここから進まない場合は、LocalDevVPN を開いて接続が完了するまで待ってください。",
   "One-Click Unlock": "ワンタップ解除",
   "Configure the US region, AI and Siri capabilities, and Additional Options together. Review and apply the changes, then restart your device.": "米国の地域、AI と Siri の機能、および追加オプションをまとめて設定します。変更を確認して適用した後、デバイスを再起動してください。",
-  "These unlock settings are already applied.": "これらの解除設定はすでに適用されています。"
+  "These unlock settings are already applied.": "これらの解除設定はすでに適用されています。",
+  "Current Modification Status": "現在の変更状態",
+  "One-Click Unlock Configuration": "ワンタップ解除の設定",
+  "Fully Configured": "設定完了",
+  "Not Fully Configured": "設定未完了",
+  "Last Read": "最終読み取り",
+  "Modified Parameters": "変更されたパラメータ",
+  "Original Value": "元の値",
+  "No recorded originals yet.": "元の値はまだ記録されていません。",
+  "Matches recorded originals.": "記録された元の値と一致しています。",
+  "Some parameters could not be compared.": "一部のパラメータを比較できませんでした。",
+  "Read failed. Showing the last successful reading.": "読み取りに失敗しました。最後に成功した読み取り結果を表示しています。",
+  "Automatically reads the device every 5 seconds while the app is active. Pending edits are excluded.": "アプリがアクティブな間、5 秒ごとにデバイスを自動で読み取ります。未適用の編集は含まれません。",
+  "Only parameters with recorded original values can be checked for modifications.": "元の値が記録されているパラメータのみ、変更の有無を確認できます。"
 }

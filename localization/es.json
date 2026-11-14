@@ -521,5 +521,18 @@
   "If this stays here, open LocalDevVPN and wait for it to finish connecting.": "Si se queda aquí, abre LocalDevVPN y espera a que termine de conectar.",
   "One-Click Unlock": "Desbloqueo con un toque",
   "Configure the US region, AI and Siri capabilities, and Additional Options together. Review and apply the changes, then restart your device.": "Configura a la vez la región de Estados Unidos, las capacidades de IA y Siri y las opciones adicionales. Revisa y aplica los cambios y reinicia el dispositivo.",
-  "These unlock settings are already applied.": "Estos ajustes de desbloqueo ya están aplicados."
+  "These unlock settings are already applied.": "Estos ajustes de desbloqueo ya están aplicados.",
+  "Current Modification Status": "Estado actual de los cambios",
+  "One-Click Unlock Configuration": "Configuración del desbloqueo con un toque",
+  "Fully Configured": "Configuración completa",
+  "Not Fully Configured": "Configuración incompleta",
+  "Last Read": "Última lectura",
+  "Modified Parameters": "Parámetros modificados",
+  "Original Value": "Valor original",
+  "No recorded originals yet.": "Aún no hay valores originales registrados.",
+  "Matches recorded originals.": "Coincide con los valores originales registrados.",
+  "Some parameters could not be compared.": "No se pudieron comparar algunos parámetros.",
+  "Read failed. Showing the last successful reading.": "Error de lectura. Se muestra la última lectura correcta.",
+  "Automatically reads the device every 5 seconds while the app is active. Pending edits are excluded.": "Lee el dispositivo automáticamente cada 5 segundos mientras la app está activa. No incluye los cambios pendientes.",
+  "Only parameters with recorded original values can be checked for modifications.": "Solo se pueden comprobar modificaciones en parámetros cuyos valores originales estén registrados."
 }

@@ -28,6 +28,8 @@ enum CapabilityCategory: String, CaseIterable, Identifiable {
 }
 
 struct Capability: Identifiable {
+    static let oneClickUnlockIDs = ["ai", "audioIntelligence", "personalTranslator", "photosCleanUp",
+                                    "handwritingSynthesis", "alwaysListeningSiri"]
     let id: String
     let category: CapabilityCategory
     let title: String

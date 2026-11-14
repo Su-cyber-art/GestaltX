@@ -60,7 +60,7 @@ jobs:
           git fetch --depth=1 origin "$DEFAULT_BRANCH"
           git checkout FETCH_HEAD -- .github/scripts/build-ipa.sh
 
-      - name: Test unlock preset and localization
+      - name: Test presets, live status and localization
         run: |
           # The workflow also rebuilds older release tags without this preset.
           if [[ -n "$TAG" && ! -f tests/run_one_click_unlock.py ]]; then
@@ -70,6 +70,11 @@ jobs:
           python3 scripts/generate_localization.py
           python3 tests/LocalizationTests.py
           python3 tests/run_one_click_unlock.py
+          if [[ -n "$TAG" && ! -f tests/run_device_status.py ]]; then
+            echo "This release predates live modification status; its regression suite does not apply."
+          else
+            python3 tests/run_device_status.py
+          fi
           python3 tests/run_field_manager_regression.py --test tests/FieldEditPrecedenceTests.swift
 
       - name: Restore native device console

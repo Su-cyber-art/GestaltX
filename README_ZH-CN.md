@@ -4,7 +4,7 @@
 
 <h1 align="center">GestaltX</h1>
 
-[![Version](https://img.shields.io/badge/version-1.2.0-blue)](https://github.com/huamidev/GestaltX)
+[![Version](https://img.shields.io/badge/version-1.3.0-blue)](https://github.com/huamidev/GestaltX)
 [![Platform](https://img.shields.io/badge/iOS-27.x-black?logo=apple)](#兼容性)
 [![SwiftUI](https://img.shields.io/badge/Swift-SwiftUI-orange?logo=swift)](https://github.com/huamidev/GestaltX)
 [![License](https://img.shields.io/badge/license-GPLv3-blue)](LICENSE)
@@ -18,6 +18,12 @@
 读取设备后，在**工具**首页点击**一键解锁**，即可一次暂存美国地区代码（`LL`）、六个 AI/Siri 能力覆盖值和额外选项，并打开**查看更改**页面。通过现有应用流程确认写入后，请重新启动设备。写入前会保留原值和备份。
 
 六项能力为 Apple 智能、音频智能、个人翻译、照片消除、手写合成和常听 Hey Siri。`green-tea`、`not-green-tea` 使用本机解析出的缓存布局。硬件身份、销售地区后缀、WAPI、SiriMode 和设备自身的端侧 Siri 能力保持原值；已有的其他暂存编辑会一并显示供确认。功能标记不保证 Apple 服务激活或实际功能可用。
+
+## 当前修改状态
+
+读取设备后，在**工具 → 当前修改状态 → 已修改参数**中，可以查看设备当前缓存与已保存原值的差异。本机模式下，应用在前台时每 5 秒刷新一次，验证应用或还原成功后也会立即更新。详情页支持下拉刷新和手动刷新。
+
+页面显示一键解锁配置是否完整、各参数的原始值与当前值，以及最近成功读取时间。暂存编辑保留在编辑器中，不计入已应用的改动。读取失败会保留带时间的上次结果并显示错误；没有原值记录的参数无法判断是否改动，未知缓存布局不会猜测。
 
 ## 功能
 

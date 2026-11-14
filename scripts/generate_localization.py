@@ -153,6 +153,19 @@ Quick Actions	快捷操作
 One-Click Unlock	一键解锁
 Configure the US region, AI and Siri capabilities, and Additional Options together. Review and apply the changes, then restart your device.	一次配置美国地区、AI 与 Siri 能力以及额外选项。检查并应用更改后，请重新启动设备。
 These unlock settings are already applied.	这些解锁设置已应用。
+Current Modification Status	当前修改状态
+One-Click Unlock Configuration	一键解锁配置
+Fully Configured	已完整配置
+Not Fully Configured	未完整配置
+Last Read	最近读取
+Modified Parameters	已修改参数
+Original Value	原始值
+No recorded originals yet.	暂无原值记录。
+Matches recorded originals.	与已记录原值一致。
+Some parameters could not be compared.	部分参数无法比较。
+Read failed. Showing the last successful reading.	读取失败，当前显示上次成功读取的结果。
+Automatically reads the device every 5 seconds while the app is active. Pending edits are excluded.	应用在前台时每 5 秒自动读取设备，待应用的编辑不计入当前状态。
+Only parameters with recorded original values can be checked for modifications.	仅能判断已有原值记录的参数是否发生改动。
 Keep a copy. Refresh when ready.	先留一份备份，准备好后再刷新。
 Back Up	备份
 Export Plist	导出 plist

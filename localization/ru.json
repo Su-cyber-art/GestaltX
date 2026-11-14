@@ -521,5 +521,18 @@
   "If this stays here, open LocalDevVPN and wait for it to finish connecting.": "Если экран не меняется, откройте LocalDevVPN и дождитесь завершения подключения.",
   "One-Click Unlock": "Разблокировать одним нажатием",
   "Configure the US region, AI and Siri capabilities, and Additional Options together. Review and apply the changes, then restart your device.": "Настройте регион США, возможности AI и Siri и дополнительные параметры вместе. Проверьте и примените изменения, затем перезагрузите устройство.",
-  "These unlock settings are already applied.": "Эти настройки разблокировки уже применены."
+  "These unlock settings are already applied.": "Эти настройки разблокировки уже применены.",
+  "Current Modification Status": "Текущее состояние изменений",
+  "One-Click Unlock Configuration": "Настройка разблокировки одним нажатием",
+  "Fully Configured": "Полностью настроено",
+  "Not Fully Configured": "Настроено не полностью",
+  "Last Read": "Последнее чтение",
+  "Modified Parameters": "Изменённые параметры",
+  "Original Value": "Исходное значение",
+  "No recorded originals yet.": "Исходные значения ещё не записаны.",
+  "Matches recorded originals.": "Совпадает с записанными исходными значениями.",
+  "Some parameters could not be compared.": "Некоторые параметры не удалось сравнить.",
+  "Read failed. Showing the last successful reading.": "Ошибка чтения. Показан результат последнего успешного чтения.",
+  "Automatically reads the device every 5 seconds while the app is active. Pending edits are excluded.": "Данные устройства считываются каждые 5 секунд, пока приложение активно. Неприменённые изменения не учитываются.",
+  "Only parameters with recorded original values can be checked for modifications.": "Проверить изменения можно только для параметров с записанными исходными значениями."
 }
