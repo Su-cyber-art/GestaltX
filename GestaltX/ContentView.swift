@@ -243,6 +243,12 @@ struct ContentView: View {
         acceptedWelcome && !isPreviewSession && scenePhase == .active && model.sourceIsDevice
     }
 
+    private var deviceConnectionStatus: String {
+        guard model.hasDocument else { return model.isBusy ? "Reading…" : "Not Loaded" }
+        guard model.sourceIsDevice else { return "Local File" }
+        return model.deviceAccessible ? "Connected" : "Not Connected"
+    }
+
     private func autoRead() async {
         guard !didAutoRead else { return }
         didAutoRead = true
@@ -356,9 +362,114 @@ struct ContentView: View {
     }
 
     private var tools: some View {
-        HomeView(systemSettings: systemSettings, customizations: customizations, launchCatalog: launchCatalog,
-                 showsChanges: $showsChanges, asksRespring: $asksRespring,
-                 asksImportedRestore: $asksImportedRestore, share: presentShare)
+        Form {
+            Section(L("Device")) {
+                LabeledContent(L("Model"), value: model.hasDocument ? model.displayedName : UIDevice.current.model)
+                LabeledContent("iOS", value: "\(UIDevice.current.systemVersion) (\(VersionSupport.label))")
+                LabeledContent(L("Status"), value: L(deviceConnectionStatus))
+                if let document = model.working {
+                    LabeledContent("CacheExtra", value: String(document.extra.count))
+                }
+            }
+            Section {
+                Button { Task { await model.connect() } } label: {
+                    Label(L(model.isBusy ? "Reading…" : model.hasDocument ? "Read Again" : "Read MobileGestalt"), systemImage: "arrow.clockwise")
+                }.disabled(model.isBusy || model.changeCount > 0)
+            }
+            if model.sourceIsDevice { DeviceStatusSection() }
+            Section {
+                Button {
+                    if model.stageOneClickUnlock() {
+                        if model.changeCount > 0 {
+                            showsChanges = true
+                        } else {
+                            model.message = L("These unlock settings are already applied.")
+                        }
+                    }
+                } label: {
+                    HStack(spacing: 12) {
+                        Image(systemName: "sparkles").font(.title3)
+                        Text(L("One-Click Unlock")).fontWeight(.semibold)
+                        Spacer(minLength: 8)
+                        Image(systemName: "chevron.right").font(.caption.weight(.semibold)).opacity(0.85)
+                    }
+                    .foregroundStyle(.white)
+                    .padding(.vertical, 14).padding(.horizontal, 16)
+                    .frame(maxWidth: .infinity)
+                    .background(RoundedRectangle(cornerRadius: 14, style: .continuous).fill(GestaltTheme.gradient))
+                    .opacity(!model.hasDocument || model.isBusy ? 0.5 : 1)
+                    .shadow(color: GestaltTheme.accent.opacity(0.28), radius: 8, y: 4)
+                }
+                .buttonStyle(.plain)
+                .listRowInsets(EdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 16))
+                .listRowBackground(Color.clear)
+                .disabled(!model.hasDocument || model.isBusy)
+                .accessibilityIdentifier("one-click-unlock")
+            } footer: {
+                Text(L("Configure the US region, AI and Siri capabilities, and Additional Options together. Review and apply the changes, then restart your device."))
+            }
+            Section(L("Device Pairing")) {
+                NavigationLink { DeviceConnectionView() } label: {
+                    Label(L("Pairing & Device Connection"), systemImage: "link.badge.plus")
+                }
+            }
+            Section("MobileGestalt") {
+                ForEach(CapabilityCategory.allCases) { category in
+                    NavigationLink { CategoryView(category: category) } label: {
+                        Label(L(category.rawValue), systemImage: category.symbol)
+                    }
+                    .disabled(!model.hasDocument || model.isBusy)
+                }
+            }
+            Section(L("Customization")) {
+                NavigationLink { SystemSettingsView(model: systemSettings) } label: {
+                    Label(L("System Settings"), systemImage: "gearshape")
+                }.disabled(model.isBusy)
+                NavigationLink { WallpapersView(model: customizations) } label: {
+                    Label(L("Wallpaper Settings"), systemImage: "photo.on.rectangle.angled")
+                }.disabled(model.isBusy)
+                NavigationLink { LaunchArtworkApplicationsView(customizations: customizations, catalog: launchCatalog) } label: {
+                    Label(L("App Launch Images"), systemImage: "app.badge")
+                }
+                NavigationLink { AppSoundApplicationsView(customizations: customizations) } label: {
+                    Label(L("App Audio Library"), systemImage: "bell.badge")
+                }.disabled(model.isBusy)
+            }
+            Section(L("Actions")) {
+                if model.snapshot?.source == .local && model.snapshot?.ownershipVerified == true {
+                    Button { asksImportedRestore = true } label: { Label(L("Restore Imported Plist"), systemImage: "arrow.uturn.backward") }
+                        .disabled(!model.canRestoreImportedPlist)
+                }
+                Button { showsChanges = true } label: {
+                    HStack {
+                        Label(L("Apply Changes"), systemImage: "checkmark")
+                        Spacer()
+                        if model.changeCount > 0 { Text(String(model.changeCount)).foregroundStyle(.secondary) }
+                    }
+                    .foregroundStyle(model.changeCount == 0 || model.isBusy ? Color(uiColor: .tertiaryLabel) : Color.gestaltAccent)
+                }
+                .disabled(model.changeCount == 0 || model.isBusy)
+                Button(role: .destructive) { model.clearStaged() } label: {
+                    Label(L("Discard Changes"), systemImage: "xmark")
+                        .foregroundStyle(model.changeCount == 0 || model.isBusy ? Color(uiColor: .tertiaryLabel) : Color.red)
+                }
+                .disabled(model.changeCount == 0 || model.isBusy)
+                Button { Task { await model.backup() } } label: { Label(L("Create Backup"), systemImage: "externaldrive.badge.plus") }
+                    .disabled(!model.hasDocument || model.isBusy)
+                Button {
+                    if let export = model.exportDocument() { presentShare(export) }
+                } label: { Label(L("Export Plist"), systemImage: "square.and.arrow.up") }
+                    .disabled(!model.hasDocument || model.isBusy)
+                Button { asksRespring = true } label: { Label(L("Respring"), systemImage: "arrow.trianglehead.2.clockwise.rotate.90") }
+                    .disabled(model.isBusy)
+            }
+            if model.needsRespring {
+                Section { Label(L("Some changes require a device restart."), systemImage: "info.circle").font(.footnote).foregroundStyle(.secondary) }
+            }
+            Section { NavigationLink { SessionLogView() } label: { Label(L("Log"), systemImage: "text.alignleft") } }
+        }
+        .navigationTitle("GestaltX")
+        .toolbar { ToolbarItem(placement: .topBarTrailing) { if model.isBusy { ProgressView() } } }
     }
 }
 
@@ -369,11 +480,6 @@ struct CategoryView: View {
     @State private var asksHardwareRestore = false
     var body: some View {
         Form {
-            Section {
-                CategoryHeader(category: category)
-            }
-            .listRowBackground(Color.clear)
-            .listRowInsets(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
             if category == .display {
                 Section {
                     Picker(L("Dynamic Island Layout"), selection: $model.subtype) {
@@ -405,10 +511,8 @@ struct CategoryView: View {
             if category == .intelligence {
                 if model.snapshot?.source == .local && model.snapshot?.ownershipVerified == true {
                     Section {
-                        Button(role: .destructive) { asksHardwareRestore = true } label: {
-                            Label(L("Restore Hardware Identity"), systemImage: "cpu")
-                        }
-                        .disabled(model.changeCount > 0)
+                        Button(L("Restore Hardware Identity"), role: .destructive) { asksHardwareRestore = true }
+                            .disabled(model.changeCount > 0)
                     } footer: {
                         Text(L("Restore only the original product, board, CPU and model number from this backup. AI and region settings are kept. Restart and test Face ID and dictation afterward."))
                     }
@@ -418,7 +522,7 @@ struct CategoryView: View {
                         ForEach(RegionPreset.all) { Text(L($0.title)).tag($0.id) }
                     }
                     if let current = model.currentText(for: GestaltKeys.regionCode) {
-                        CurrentValueCaption(text: current)
+                        Text(L("Current Value") + ": " + current).font(.caption).foregroundStyle(.secondary)
                     }
                     if model.regionCodeID != "keep" { Text(L("A device restart may be required.")).font(.caption).foregroundStyle(.secondary) }
                 } footer: {
@@ -432,7 +536,7 @@ struct CategoryView: View {
                         ForEach(RegionPreset.all) { Text(L($0.title)).tag($0.id) }
                     }
                     if let current = model.currentText(for: GestaltKeys.regionInfo) {
-                        CurrentValueCaption(text: current)
+                        Text(L("Current Value") + ": " + current).font(.caption).foregroundStyle(.secondary)
                     }
                     if model.regionID != "keep" { Text(L("Restart the device after changing the region.")).font(.caption).foregroundStyle(.secondary) }
                 } footer: {
@@ -443,14 +547,15 @@ struct CategoryView: View {
                         ForEach(ModelPreset.all) { Text(L($0.title)).tag($0.id) }
                     }
                     if let current = model.currentText(for: GestaltKeys.modelNumber) {
-                        CurrentValueCaption(text: current)
+                        Text(L("Current Value") + ": " + current).font(.caption).foregroundStyle(.secondary)
                     }
                     HStack(alignment: .firstTextBaseline) {
                         if model.modelID != "keep" {
                             Text(L("A device restart may be required after changing the model number.")).font(.caption).foregroundStyle(.secondary)
                         }
                         Spacer(minLength: 8)
-                        RevertButton { Task { await model.restoreCapability(ModelPreset.restoration) } }
+                        Button(L("Revert")) { Task { await model.restoreCapability(ModelPreset.restoration) } }
+                            .font(.caption).buttonStyle(.borderless)
                             .disabled(!model.canRestore(ModelPreset.restoration))
                     }
                 } footer: {
@@ -469,22 +574,12 @@ struct CategoryView: View {
                 Text(L("Presets"))
             }
             if category == .ipad || category == .advanced {
-                Section {
-                    GXBanner(text: L("Experimental settings. Back up before applying."),
-                             systemImage: "exclamationmark.triangle.fill", tint: GestaltTheme.caution)
-                }
-                .listRowBackground(Color.clear)
-                .listRowInsets(EdgeInsets())
+                Section { Text(L("Experimental settings. Back up before applying.")).font(.footnote).foregroundStyle(.secondary) }
             }
             if model.changeCount > 0 {
-                Section {
-                    NavigationLink { ChangeReviewView(isSheet: false) } label: {
-                        Label(L("Review Changes"), systemImage: "checklist").foregroundStyle(GestaltTheme.accent)
-                    }
-                }
+                Section { NavigationLink(L("Review Changes")) { ChangeReviewView(isSheet: false) } }
             }
         }
-        .gxListBackground()
         .navigationTitle(L(category.rawValue)).disabled(model.isBusy)
         .alert(L("Restore Hardware Identity"), isPresented: $asksHardwareRestore) {
             Button(L("Cancel"), role: .cancel) {}
@@ -501,56 +596,6 @@ struct CategoryView: View {
         } message: {
             Text(L("This stages the system-wide InternalBuild flag. It can affect system services beyond the storage screen. You can review the change before applying it."))
         }
-    }
-}
-
-/// The icon and summary shown at the top of a category screen.
-private struct CategoryHeader: View {
-    let category: CapabilityCategory
-
-    var body: some View {
-        HStack(spacing: 14) {
-            IconChip(systemName: category.symbol, tint: category.tint, size: 54, filled: true)
-                .shadow(color: category.tint.opacity(0.35), radius: 10, y: 4)
-            VStack(alignment: .leading, spacing: 6) {
-                Text(L(category.subtitle))
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-                GXCapsule(text: String(Capability.all.filter { $0.category == category }.count),
-                          tint: category.tint, systemImage: "slider.horizontal.3")
-            }
-            Spacer(minLength: 0)
-        }
-        .padding(.vertical, 4)
-    }
-}
-
-/// "Current Value: …" caption under raw-value pickers.
-private struct CurrentValueCaption: View {
-    let text: String
-    var body: some View {
-        HStack(spacing: 6) {
-            Image(systemName: "eye").foregroundStyle(.secondary)
-            Text(L("Current Value")).foregroundStyle(.secondary)
-            Text(verbatim: text).fontDesign(.monospaced).foregroundStyle(GestaltTheme.accent).lineLimit(1)
-        }
-        .font(.caption)
-    }
-}
-
-/// The small capsule "Revert" button used by preset rows.
-private struct RevertButton: View {
-    let action: () -> Void
-    var body: some View {
-        Button(action: action) {
-            Label(L("Revert"), systemImage: "arrow.uturn.backward")
-                .font(.caption.weight(.semibold))
-        }
-        .buttonStyle(.bordered)
-        .buttonBorderShape(.capsule)
-        .controlSize(.mini)
-        .tint(GestaltTheme.accent)
     }
 }
 
@@ -575,13 +620,11 @@ struct CapabilityRow: View {
     }
 
     var body: some View {
-        let action = currentAction
-        let canRestore = model.canRestore(capability)
         VStack(alignment: .leading, spacing: 8) {
             Menu {
                 ForEach(capability.availableChoices) { choice in
                     Button { select(choice) } label: {
-                        if action == choice {
+                        if currentAction == choice {
                             Label(L(title(for: choice)), systemImage: "checkmark")
                         } else {
                             Text(L(title(for: choice)))
@@ -590,29 +633,18 @@ struct CapabilityRow: View {
                 }
             } label: {
                 HStack(spacing: 10) {
-                    VStack(alignment: .leading, spacing: 3) {
-                        HStack(spacing: 6) {
-                            Text(L(capability.title))
-                                .font(.body.weight(.medium))
-                                .foregroundStyle(.primary)
-                                .multilineTextAlignment(.leading)
-                            if capability.caution {
-                                Image(systemName: "exclamationmark.triangle.fill")
-                                    .font(.caption2).foregroundStyle(GestaltTheme.caution)
-                                    .accessibilityLabel(L("Experimental"))
-                            }
-                        }
-                        if action != .keep {
-                            Label(L(title(for: action)), systemImage: "arrow.forward.circle.fill")
-                                .font(.caption.weight(.semibold))
-                                .foregroundStyle(GestaltTheme.accent)
-                                .lineLimit(1)
+                    HStack(spacing: 6) {
+                        Text(L(capability.title)).foregroundStyle(.primary)
+                        if capability.caution {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .font(.caption2).foregroundStyle(.orange)
+                                .accessibilityLabel(L("Experimental"))
                         }
                     }
                     Spacer(minLength: 8)
-                    CapabilityStatusView(current: model.state(of: capability), isStaged: action != .keep)
+                    CapabilityStatusView(current: model.state(of: capability), isStaged: currentAction != .keep)
                     Image(systemName: "chevron.up.chevron.down")
-                        .font(.caption2.weight(.semibold)).foregroundStyle(.tertiary)
+                        .font(.caption2).foregroundStyle(.tertiary)
                 }
                 .contentShape(Rectangle())
             }
@@ -621,19 +653,17 @@ struct CapabilityRow: View {
             if capability.requiresEnableConfirmation || capability.id == "siriOnDevice" || capability.id == "siriAIMode" {
                 Text(L(capability.detail)).font(.caption).foregroundStyle(.secondary)
             }
-            if action != .keep || canRestore {
-                HStack(alignment: .center) {
-                    if action != .keep {
-                        Text(L(capability.effectHint)).font(.caption).foregroundStyle(.secondary)
-                    }
-                    Spacer(minLength: 8)
-                    if canRestore {
-                        RevertButton { Task { await model.restoreCapability(capability) } }
-                    }
+            HStack(alignment: .firstTextBaseline) {
+                if currentAction != .keep {
+                    Text(L(capability.effectHint)).font(.caption).foregroundStyle(.secondary)
                 }
+                Spacer(minLength: 8)
+                Button(L("Revert")) { Task { await model.restoreCapability(capability) } }
+                    .font(.caption).buttonStyle(.borderless)
+                    .disabled(!model.canRestore(capability))
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, 2)
     }
 }
 
@@ -651,31 +681,29 @@ struct AdditionalOptionsRow: View {
         switch support {
         case .success:
             VStack(alignment: .leading, spacing: 8) {
-                Picker(selection: Binding(
+                Picker(L("Additional Options"), selection: Binding(
                     get: { model.cacheOptionChoice },
                     set: { model.stageCacheOption($0) }
                 )) {
                     ForEach(CacheOptionChoice.allCases) { choice in
                         Text(choice.title).tag(choice)
                     }
-                } label: {
-                    Text(L("Additional Options")).font(.body.weight(.medium))
                 }
                 .pickerStyle(.menu)
                 .accessibilityIdentifier("cache-option-choice")
-                HStack(alignment: .center) {
-                    Text(L("Some changes require a device restart."))
-                        .font(.caption).foregroundStyle(.secondary)
+                Text(L("Some changes require a device restart."))
+                    .font(.caption).foregroundStyle(.secondary)
+                HStack(alignment: .firstTextBaseline) {
                     Spacer(minLength: 8)
-                    RevertButton { Task { await model.restoreCacheOption() } }
+                    Button(L("Revert")) { Task { await model.restoreCacheOption() } }
+                        .font(.caption).buttonStyle(.borderless)
                         .disabled(!model.canRestoreCacheOption)
                         .accessibilityIdentifier("cache-option-revert")
                 }
             }
-            .padding(.vertical, 4)
         case .failure(let error):
             VStack(alignment: .leading, spacing: 4) {
-                LabeledContent(L("Additional Options")) { GXCapsule(text: L("Unsupported"), tint: Color(uiColor: .systemGray)) }
+                LabeledContent(L("Additional Options")) { Text(L("Unsupported")).foregroundStyle(.secondary) }
                 Text(error.localizedDescription).font(.caption).foregroundStyle(.secondary)
             }
         }
@@ -691,19 +719,16 @@ struct WAPIPresetRow: View {
     var body: some View {
         if supported {
             VStack(alignment: .leading, spacing: 8) {
-                Picker(selection: Binding(get: { model.wapiChoice }, set: { model.stageWAPI($0) })) {
+                Picker("WAPI", selection: Binding(get: { model.wapiChoice }, set: { model.stageWAPI($0) })) {
                     ForEach(WAPIChoice.allCases) { choice in Text(choice.title).tag(choice) }
-                } label: {
-                    Text(verbatim: "WAPI").font(.body.weight(.medium))
                 }
                 .pickerStyle(.menu)
                 .accessibilityIdentifier("wapi-choice")
                 Text(L("Disabling may show Wi-Fi and change some network options. Restart to apply."))
                     .font(.caption).foregroundStyle(.secondary)
             }
-            .padding(.vertical, 4)
         } else {
-            LabeledContent("WAPI") { GXCapsule(text: L("Unsupported"), tint: Color(uiColor: .systemGray)) }
+            LabeledContent("WAPI") { Text(L("Unsupported")).foregroundStyle(.secondary) }
         }
     }
 }
@@ -728,57 +753,34 @@ struct FieldsView: View {
         return type.text(for: value)
     }
     var body: some View {
-        // Rows reuse one preview snapshot instead of rebuilding it per lookup.
-        let extra = model.preview?.extra ?? [:]
-        let keys = self.keys
         List {
             if !model.hasDocument {
                 ContentUnavailableView(L("No Document Open"), systemImage: "doc.text.magnifyingglass", description: Text(L("Read MobileGestalt in Tools, or share this device's plist to GestaltX.")))
-                    .listRowBackground(Color.clear)
             } else {
                 Section {
                     ForEach(keys, id: \.self) { key in
                         Button {
-                            guard let value = extra[key] else { return }
+                            guard let value = model.preview?.extra[key] else { return }
                             let kind = PlistValueKind.detect(value)
                             draft = FieldDraft(originalKey: key, key: key, kind: kind, text: kind.text(for: value), originalValue: value)
                         } label: {
-                            HStack(alignment: .top, spacing: 12) {
-                                let kind = extra[key].map { PlistValueKind.detect($0) }
-                                Circle()
-                                    .fill((kind?.tint ?? Color(uiColor: .systemGray)).gradient)
-                                    .frame(width: 8, height: 8)
-                                    .padding(.top, 6)
-                                VStack(alignment: .leading, spacing: 6) {
-                                    HStack(alignment: .firstTextBaseline) {
-                                        Text(key).font(.system(.subheadline, design: .monospaced).weight(.medium))
-                                            .foregroundStyle(.primary).lineLimit(2)
-                                        Spacer(minLength: 4)
-                                        if let kind {
-                                            GXCapsule(text: L(kind.rawValue), tint: kind.tint)
-                                        }
+                            VStack(alignment: .leading, spacing: 6) {
+                                HStack(alignment: .firstTextBaseline) {
+                                    Text(key).font(.system(.subheadline, design: .monospaced)).foregroundStyle(.primary).lineLimit(2)
+                                    Spacer(minLength: 4)
+                                    if let value = model.preview?.extra[key] {
+                                        Text(L(PlistValueKind.detect(value).rawValue)).font(.caption2).foregroundStyle(Color.gestaltAccent)
                                     }
-                                    Text(valueText(key, in: extra))
-                                        .font(.system(.caption, design: .monospaced))
-                                        .foregroundStyle(.secondary).lineLimit(2)
                                 }
-                            }
-                            .padding(.vertical, 4)
-                            .environment(\.layoutDirection, .leftToRight)
+                                Text(valueText(key)).font(.caption).foregroundStyle(.secondary).lineLimit(2)
+                            }.padding(.vertical, 5)
                         }
                         .swipeActions(allowsFullSwipe: false) { Button(L("Delete")) { deletesKey = key }.tint(.red) }
                     }
-                } header: {
-                    HStack {
-                        Text(verbatim: "CacheExtra")
-                        Spacer()
-                        Text(verbatim: String(keys.count)).monospacedDigit()
-                    }
-                }
-                if keys.isEmpty { ContentUnavailableView.search(text: search).listRowBackground(Color.clear) }
+                } header: { Text("CacheExtra") }
+                if keys.isEmpty { ContentUnavailableView.search(text: search) }
             }
         }
-        .gxListBackground()
         .navigationTitle(L("MG Control"))
         .searchable(text: $search, prompt: L("Search keys and values"))
         .toolbar {
@@ -817,15 +819,8 @@ struct FieldEditorView: View {
                 } else if draft.kind == .data {
                     Section { Text(L("Data values use Base64 encoding.")).font(.footnote).foregroundStyle(.secondary) }
                 }
-                if let error {
-                    Section {
-                        GXBanner(text: error, systemImage: "xmark.octagon.fill", tint: GestaltTheme.danger)
-                    }
-                    .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets())
-                }
+                if let error { Section { Text(error).foregroundStyle(.red).font(.footnote) } }
             }
-            .gxListBackground()
             .navigationTitle(L(draft.originalKey == nil ? "Add Field" : "Edit Field"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -851,87 +846,36 @@ struct ChangeReviewView: View {
         }
     }
     private var contents: some View {
-        let pending = model.changeCount
-        return List {
+        List {
             Section {
-                HStack(alignment: .top, spacing: 14) {
-                    IconChip(systemName: model.sourceIsDevice ? "iphone" : "doc.text", size: 44, filled: true)
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(L(model.sourceIsDevice ? "Write to this device" : "Save local document")).font(.headline)
-                        Text(L(model.sourceIsDevice ? "A backup is created before writing. The result is read back and compared." : "This edits the opened file in GestaltX. Export it to save a copy; the system file is not changed."))
-                            .font(.footnote).foregroundStyle(.secondary)
-                    }
-                }
-                .padding(.vertical, 4)
+                Label(L(model.sourceIsDevice ? "Write to this device" : "Save local document"), systemImage: model.sourceIsDevice ? "iphone" : "doc.text")
+                Text(L(model.sourceIsDevice ? "A backup is created before writing. The result is read back and compared." : "This edits the opened file in GestaltX. Export it to save a copy; the system file is not changed."))
+                    .font(.footnote).foregroundStyle(.secondary)
             }
-            if let message = model.message {
-                Section {
-                    GXBanner(text: message, systemImage: "xmark.octagon.fill", tint: GestaltTheme.danger)
-                }
-                .listRowBackground(Color.clear)
-                .listRowInsets(EdgeInsets())
-            }
+            if let message = model.message { Section { Text(message).font(.footnote).foregroundStyle(.red) } }
             ForEach(model.changeKeys, id: \.self) { key in
                 Section {
-                    VStack(alignment: .leading, spacing: 10) {
-                        if let capability = Capability.all.first(where: { $0.keys.contains(key) }) {
-                            Text(L(capability.title)).font(.subheadline.weight(.semibold))
-                        }
-                        Text(key).font(.system(.caption, design: .monospaced)).foregroundStyle(.secondary)
-                            .textSelection(.enabled)
-                        GXValueDiff(before: model.snapshot?.document.extra[key], after: model.preview?.extra[key])
-                        if let capability = Capability.all.first(where: { $0.keys.contains(key) }) {
-                            Label(L(capability.effectHint), systemImage: "info.circle")
-                                .font(.caption).foregroundStyle(.secondary)
-                        }
+                    Text(key).font(.system(.caption, design: .monospaced)).textSelection(.enabled)
+                    valueRow("Before", value: model.snapshot?.document.extra[key])
+                    valueRow("After", value: model.preview?.extra[key])
+                    if let capability = Capability.all.first(where: { $0.keys.contains(key) }) {
+                        Text(L(capability.effectHint)).font(.caption).foregroundStyle(.secondary)
                     }
-                    .padding(.vertical, 4)
                 }
             }
             ForEach(model.cacheDataChanges) { change in
                 Section {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text(verbatim: "CacheData · \(change.name)")
-                            .font(.system(.caption, design: .monospaced)).foregroundStyle(.secondary)
-                            .textSelection(.enabled)
-                        GXValueDiff(before: NSNumber(value: change.before), after: NSNumber(value: change.after))
-                    }
-                    .padding(.vertical, 4)
+                    Text(verbatim: "CacheData · \(change.name)")
+                        .font(.system(.caption, design: .monospaced)).textSelection(.enabled)
+                    valueRow("Before", value: NSNumber(value: change.before))
+                    valueRow("After", value: NSNumber(value: change.after))
                 }
             }
-        }
-        .gxListBackground()
-        .safeAreaInset(edge: .bottom) {
-            VStack(spacing: 10) {
-                Button { asksApply = true } label: {
-                    HStack(spacing: 8) {
-                        Image(systemName: model.sourceIsDevice ? "iphone.and.arrow.forward" : "square.and.arrow.down")
-                        Text(L(model.sourceIsDevice ? "Apply to Device" : "Save Local Changes"))
-                        if pending > 0 {
-                            Text(String(pending)).monospacedDigit()
-                                .padding(.horizontal, 7).padding(.vertical, 1)
-                                .background(Capsule().fill(Color.white.opacity(0.25)))
-                        }
-                    }
-                    .font(.headline)
-                    .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.borderedProminent)
-                .buttonBorderShape(.capsule)
-                .controlSize(.large)
-                .disabled(pending == 0 || model.isBusy)
-                Button(role: .destructive) { model.clearStaged(); dismiss() } label: {
-                    Text(L("Discard Changes")).font(.subheadline.weight(.semibold)).frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.bordered)
-                .buttonBorderShape(.capsule)
-                .controlSize(.large)
-                .disabled(model.isBusy)
+            Section {
+                Button(L(model.sourceIsDevice ? "Apply to Device" : "Save Local Changes")) { asksApply = true }
+                    .fontWeight(.semibold).disabled(model.changeCount == 0 || model.isBusy)
+                Button(L("Discard Changes"), role: .destructive) { model.clearStaged(); dismiss() }.disabled(model.isBusy)
             }
-            .padding(.horizontal, 20)
-            .padding(.top, 12)
-            .padding(.bottom, 8)
-            .background(.bar)
         }
         .navigationTitle(L("Review Changes")).navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -943,6 +887,13 @@ struct ChangeReviewView: View {
             Button(L("Apply")) { Task { await model.apply(); if model.changeCount == 0 { dismiss() } } }
         } message: { Text(L(model.sourceIsDevice ? "Incorrect system values can affect device behavior. A verified backup will be kept. No respring is triggered automatically." : "The current local document will be backed up before saving your edits.")) }
     }
+    private func valueRow(_ title: String, value: Any?) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(L(title)).font(.caption.weight(.semibold)).foregroundStyle(.secondary)
+            Text(value.map { PlistValueKind.detect($0).text(for: $0) } ?? L("Not present"))
+                .font(.system(.caption, design: .monospaced)).lineLimit(6).textSelection(.enabled)
+        }
+    }
 }
 
 struct BackupsView: View {
@@ -952,94 +903,47 @@ struct BackupsView: View {
     @State private var deletes: BackupRecord?
     @State private var hardwareRestore: BackupRecord?
     var body: some View {
-        let pending = model.changeCount
         List {
             Section {
-                Button { Task { await model.backup() } } label: {
-                    HStack(spacing: 12) {
-                        Image(systemName: "externaldrive.fill.badge.plus").font(.title3)
-                        Text(L("Create Backup")).font(.headline)
-                        Spacer(minLength: 0)
-                    }
-                    .foregroundStyle(Color.white)
-                    .padding(.horizontal, 16)
-                    .frame(height: 54)
-                    .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(GestaltTheme.gradient))
-                    .shadow(color: GestaltTheme.accent.opacity(0.25), radius: 10, y: 4)
-                    .contentShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                }
-                .buttonStyle(.gxPressable)
-                .disabled(!model.hasDocument || model.isBusy)
-                .listRowBackground(Color.clear)
-                .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+                Button { Task { await model.backup() } } label: { Label(L("Create Backup"), systemImage: "plus.circle.fill") }
+                    .disabled(!model.hasDocument || model.isBusy)
             } footer: {
-                if pending > 0 {
+                if model.changeCount > 0 {
                     Text(L("Save or discard your current changes before opening another plist."))
                 }
             }
             if model.backups.isEmpty {
                 ContentUnavailableView(L("No Backups"), systemImage: "externaldrive.badge.timemachine", description: Text(L("A backup is created before each write.")))
-                    .listRowBackground(Color.clear)
             }
             ForEach(model.backups) { record in
                 Section {
-                    VStack(alignment: .leading, spacing: 12) {
-                        HStack(alignment: .top, spacing: 12) {
-                            IconChip(systemName: record.source == .device ? "iphone" : "doc.text",
-                                     tint: record.source == .device ? GestaltTheme.accent : Color(red: 0.200, green: 0.522, blue: 0.965),
-                                     size: 40, filled: true)
-                            VStack(alignment: .leading, spacing: 3) {
-                                Text(L(record.reason)).font(.subheadline.weight(.semibold))
-                                Text(record.date, format: .dateTime.year().month().day().hour().minute().second())
-                                    .font(.caption).foregroundStyle(.secondary)
-                                HStack(spacing: 6) {
-                                    GXCapsule(text: L(record.source == .device ? "Device Backup" : "Local File Backup"),
-                                              tint: record.source == .device ? GestaltTheme.accent : Color(red: 0.200, green: 0.522, blue: 0.965))
-                                    Text(ByteCountFormatter.string(fromByteCount: Int64(record.byteCount), countStyle: .file))
-                                        .font(.caption2.monospacedDigit()).foregroundStyle(.secondary)
-                                    if record.sha256 != nil {
-                                        Image(systemName: "checkmark.shield.fill").font(.caption2).foregroundStyle(GestaltTheme.positive)
-                                    }
-                                }
-                            }
-                            Spacer(minLength: 0)
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            Image(systemName: record.source == .device ? "iphone" : "doc.text").foregroundStyle(Color.gestaltAccent)
+                            Text(L(record.reason)).fontWeight(.medium)
+                            Spacer()
                         }
-                        HStack(spacing: 8) {
-                            Button { Task { await model.openBackup(record) } } label: {
-                                Label(L("Open"), systemImage: "doc.text.magnifyingglass").frame(maxWidth: .infinity)
-                            }
-                            .disabled(pending > 0)
-                            Button { Task { if let url = await model.exportBackup(record) { share(url) } } } label: {
-                                Label(L("Export"), systemImage: "square.and.arrow.up").frame(maxWidth: .infinity)
-                            }
-                            Button { restores = record } label: {
-                                Label(L("Restore"), systemImage: "arrow.uturn.backward").frame(maxWidth: .infinity)
-                            }
-                            .disabled(pending > 0 || !model.hasDocument || (model.sourceIsDevice && record.source != .device))
-                        }
-                        .labelStyle(.titleOnly)
-                        .font(.caption.weight(.semibold))
-                        .buttonStyle(.bordered)
-                        .buttonBorderShape(.capsule)
-                        .controlSize(.small)
-                        .tint(GestaltTheme.accent)
+                        Text(record.date, format: .dateTime.year().month().day().hour().minute().second()).font(.subheadline)
+                        Text(L(record.source == .device ? "Device Backup" : "Local File Backup") + " · " + ByteCountFormatter.string(fromByteCount: Int64(record.byteCount), countStyle: .file))
+                            .font(.caption).foregroundStyle(.secondary)
+                        HStack {
+                            Button(L("Open")) { Task { await model.openBackup(record) } }
+                                .disabled(model.changeCount > 0)
+                            Spacer()
+                            Button(L("Export")) { Task { if let url = await model.exportBackup(record) { share(url) } } }
+                            Spacer()
+                            Button(L("Restore")) { restores = record }
+                                .disabled(model.changeCount > 0 || !model.hasDocument || (model.sourceIsDevice && record.source != .device))
+                        }.font(.subheadline).buttonStyle(.borderless).padding(.top, 6)
                         if record.source == .device && record.sha256 != nil {
-                            Button { hardwareRestore = record } label: {
-                                Label(L("Restore Hardware Identity"), systemImage: "cpu")
-                                    .font(.caption.weight(.semibold))
-                                    .frame(maxWidth: .infinity)
-                            }
-                            .buttonStyle(.bordered)
-                            .buttonBorderShape(.capsule)
-                            .controlSize(.small)
-                            .tint(GestaltTheme.caution)
-                            .disabled(pending > 0 || !model.sourceIsDevice)
+                            Button(L("Restore Hardware Identity")) { hardwareRestore = record }
+                                .font(.subheadline).buttonStyle(.borderless)
+                                .disabled(model.changeCount > 0 || !model.sourceIsDevice)
                         }
                     }.padding(.vertical, 6)
                 }.swipeActions(allowsFullSwipe: false) { Button(L("Delete")) { deletes = record }.tint(.red) }
             }
         }
-        .gxListBackground()
         .navigationTitle(L("Backups")).disabled(model.isBusy)
         .task { await model.reloadBackups() }
         .refreshable { await model.reloadBackups() }
@@ -1077,20 +981,11 @@ struct SessionLogView: View {
 
     var body: some View {
         ScrollView {
-            if model.logs.isEmpty {
-                ContentUnavailableView(L("No activity yet."), systemImage: "text.alignleft")
-                    .padding(.top, 60)
-            } else {
-                Text(model.logs.joined(separator: "\n"))
-                    .font(.system(.caption, design: .monospaced))
-                    .lineSpacing(3)
-                    .textSelection(.enabled)
-                    .environment(\.layoutDirection, .leftToRight)
-                    .gxCard(padding: 14, radius: 18)
-                    .padding(16)
-            }
+            Text(model.logs.isEmpty ? L("No activity yet.") : model.logs.joined(separator: "\n"))
+                .font(.system(.caption, design: .monospaced)).textSelection(.enabled)
+                .frame(maxWidth: .infinity, alignment: .leading).padding()
+                .environment(\.layoutDirection, .leftToRight)
         }
-        .background { GXPageBackground() }
         .navigationTitle(L("Session Log"))
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {

@@ -537,8 +537,5 @@
   "Only parameters with recorded original values can be checked for modifications.": "Проверить изменения можно только для параметров с записанными исходными значениями.",
   "On": "Вкл.",
   "Off": "Выкл.",
-  "Custom": "Другое",
-  "Releases": "Релизы",
-  "Maintained by Su-cyber-art": "Поддерживается Su-cyber-art",
-  "Based on the original work by huamidev": "На основе оригинальной работы huamidev"
+  "Custom": "Другое"
 }

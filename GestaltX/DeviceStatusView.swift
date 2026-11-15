@@ -1,6 +1,33 @@
 // SPDX-License-Identifier: GPL-3.0-only
 import SwiftUI
 
+struct DeviceStatusSection: View {
+    @EnvironmentObject private var model: GestaltManager
+
+    var body: some View {
+        Section {
+            DeviceStatusReadingRows()
+            NavigationLink {
+                DeviceStatusView()
+            } label: {
+                HStack {
+                    Text(L("Modified Parameters"))
+                    Spacer()
+                    if let reading = model.deviceStatus {
+                        Text(reading.report.hasRecordedOriginals ? String(reading.report.changes.count) : L("Unavailable"))
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+            LabeledContent(L("Pending Changes"), value: String(model.changeCount))
+        } header: {
+            Text(L("Current Modification Status"))
+        } footer: {
+            Text(L("Automatically reads the device every 5 seconds while the app is active. Pending edits are excluded."))
+        }
+    }
+}
+
 private struct DeviceStatusReadingRows: View {
     @EnvironmentObject private var model: GestaltManager
 
@@ -15,9 +42,8 @@ private struct DeviceStatusReadingRows: View {
         if let reading = model.deviceStatus {
             LabeledContent(L("One-Click Unlock Configuration")) {
                 if model.deviceStatusError == nil, let configured = reading.report.unlockConfigured {
-                    GXCapsule(text: L(configured ? "Fully Configured" : "Not Fully Configured"),
-                              tint: configured ? GestaltTheme.positive : Color(uiColor: .systemGray),
-                              systemImage: configured ? "checkmark.seal.fill" : "seal")
+                    Text(L(configured ? "Fully Configured" : "Not Fully Configured"))
+                        .foregroundStyle(configured ? Color.green : Color.secondary)
                 } else {
                     Text(L("Unavailable")).foregroundStyle(.secondary)
                 }
@@ -60,11 +86,11 @@ struct DeviceStatusView: View {
                     } else {
                         ForEach(reading.report.changes) { change in
                             VStack(alignment: .leading, spacing: 8) {
-                                Text(L(change.title)).font(.subheadline.weight(.semibold))
+                                Text(L(change.title)).fontWeight(.semibold)
                                 Text(change.key).font(.system(.caption, design: .monospaced))
                                     .foregroundStyle(.secondary).textSelection(.enabled)
-                                GXValueDiff(beforeTitle: "Original Value", afterTitle: "Current Value",
-                                            before: change.original, after: change.current)
+                                valueRow("Original Value", value: change.original)
+                                valueRow("Current Value", value: change.current)
                             }
                             .padding(.vertical, 4)
                         }
@@ -77,13 +103,9 @@ struct DeviceStatusView: View {
                 if !reading.report.issues.isEmpty {
                     Section {
                         ForEach(reading.report.issues) { issue in
-                            Label {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(L(issue.title)).fontWeight(.semibold)
-                                    Text(issue.message).font(.caption).foregroundStyle(.secondary)
-                                }
-                            } icon: {
-                                Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(GestaltTheme.caution)
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(L(issue.title)).fontWeight(.semibold)
+                                Text(issue.message).font(.caption).foregroundStyle(.secondary)
                             }
                         }
                     }
@@ -96,7 +118,6 @@ struct DeviceStatusView: View {
                 }
             }
         }
-        .gxListBackground()
         .navigationTitle(L("Modified Parameters"))
         .navigationBarTitleDisplayMode(.inline)
         .onChange(of: model.sourceIsDevice) { _, isDevice in
@@ -111,6 +132,14 @@ struct DeviceStatusView: View {
                 .disabled(model.isBusy)
                 .accessibilityIdentifier("refresh-device-status")
             }
+        }
+    }
+
+    private func valueRow(_ title: String, value: Any?) -> some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text(L(title)).font(.caption).foregroundStyle(.secondary)
+            Text(value.map { PlistValueKind.detect($0).text(for: $0) } ?? L("Not present"))
+                .font(.system(.caption, design: .monospaced)).lineLimit(6).textSelection(.enabled)
         }
     }
 }

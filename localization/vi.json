@@ -537,8 +537,5 @@
   "Only parameters with recorded original values can be checked for modifications.": "Chỉ có thể kiểm tra thay đổi của thông số đã có giá trị ban đầu được ghi lại.",
   "On": "Bật",
   "Off": "Tắt",
-  "Custom": "Tùy chỉnh",
-  "Releases": "Bản phát hành",
-  "Maintained by Su-cyber-art": "Được duy trì bởi Su-cyber-art",
-  "Based on the original work by huamidev": "Dựa trên tác phẩm gốc của huamidev"
+  "Custom": "Tùy chỉnh"
 }
