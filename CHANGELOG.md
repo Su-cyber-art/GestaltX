@@ -2,22 +2,6 @@
 
 English | [简体中文](CHANGELOG_ZH-CN.md)
 
-## [1.4.0] - 2026-11-15
-
-Build `11152200`.
-
-### Added
-
-- MobileGestalt parameter rows now show each capability's live state (On / Off / Custom) on the trailing edge, read from the previewed document, so the menus are no longer blind. The current action is checkmarked and a staged edit shows a pencil mark.
-- The Region Code, Sales Region and Model Number pickers show the current value.
-
-### Changed
-
-- New indigo-violet accent and gradient theme with reusable state components, and a gradient One-Click Unlock card. The accent color asset was updated for light and dark mode.
-- In-app repository links and README badges point to this fork.
-
-**Full Changelog**: https://github.com/Su-cyber-art/GestaltX/compare/v1.3.0...v1.4.0
-
 ## [1.3.0] - 2026-11-14
 
 Build `11142151`.

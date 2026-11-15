@@ -5,7 +5,7 @@ func L(_ key: String) -> String { NSLocalizedString(key, comment: "") }
 enum GestaltBrand {
     static let developer = "huamidev"
     static let github = URL(string: "https://github.com/huamidev")!
-    static let projects = URL(string: "https://github.com/Su-cyber-art/GestaltX")!
+    static let projects = URL(string: "https://github.com/huamidev/GestaltX")!
     static let buildDate: String = {
         guard let url = Bundle.main.url(forResource: "BuildDate", withExtension: "txt"),
               let date = try? String(contentsOf: url, encoding: .utf8) else { return "2026-11-09" }

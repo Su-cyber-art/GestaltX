@@ -534,8 +534,5 @@
   "Some parameters could not be compared.": "部分參數無法比較。",
   "Read failed. Showing the last successful reading.": "讀取失敗，目前顯示上次成功讀取的結果。",
   "Automatically reads the device every 5 seconds while the app is active. Pending edits are excluded.": "App 在前景時每 5 秒自動讀取裝置，尚未套用的編輯不計入目前狀態。",
-  "Only parameters with recorded original values can be checked for modifications.": "僅能判斷已有原值記錄的參數是否發生變更。",
-  "On": "已開啟",
-  "Off": "已關閉",
-  "Custom": "自訂"
+  "Only parameters with recorded original values can be checked for modifications.": "僅能判斷已有原值記錄的參數是否發生變更。"
 }
