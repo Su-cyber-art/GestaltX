@@ -537,5 +537,8 @@
   "Only parameters with recorded original values can be checked for modifications.": "فقط پارامترهایی که مقدار اصلی آن‌ها ثبت شده است، برای تغییر قابل بررسی هستند.",
   "On": "روشن",
   "Off": "خاموش",
-  "Custom": "سفارشی"
+  "Custom": "سفارشی",
+  "Releases": "نسخه‌ها",
+  "Maintained by Su-cyber-art": "نگهداری توسط Su-cyber-art",
+  "Based on the original work by huamidev": "بر پایه اثر اصلی huamidev"
 }

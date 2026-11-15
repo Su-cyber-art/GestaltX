@@ -541,6 +541,9 @@ If this stays here, open LocalDevVPN and wait for it to finish connecting.	如�
 On	已开启
 Off	已关闭
 Custom	自定义
+Releases	发布版本
+Maintained by Su-cyber-art	由 Su-cyber-art 维护
+Based on the original work by huamidev	基于 huamidev 的原始作品
 '''
 entries = {}
 for line in TRANSLATIONS.strip().splitlines():

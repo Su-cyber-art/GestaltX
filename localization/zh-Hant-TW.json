@@ -537,5 +537,8 @@
   "Only parameters with recorded original values can be checked for modifications.": "僅能判斷已有原值記錄的參數是否發生變更。",
   "On": "已開啟",
   "Off": "已關閉",
-  "Custom": "自訂"
+  "Custom": "自訂",
+  "Releases": "發行版本",
+  "Maintained by Su-cyber-art": "由 Su-cyber-art 維護",
+  "Based on the original work by huamidev": "基於 huamidev 的原始作品"
 }

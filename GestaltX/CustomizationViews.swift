@@ -146,6 +146,7 @@ struct WallpapersView: View {
                 Button { model.open("com.apple.PosterBoard") } label: { Label(L("Open Wallpaper Gallery"), systemImage: "photo.on.rectangle") }
             }
         }
+        .gxListBackground()
         .navigationTitle(L("Wallpaper Settings"))
         .navigationBarTitleDisplayMode(.inline)
         .disabled(model.busy)

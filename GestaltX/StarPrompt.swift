@@ -14,7 +14,7 @@ final class StarPromptController: ObservableObject {
 
     private let defaults = UserDefaults.standard
     private var didSchedule = false
-    private let repositoryURL = URL(string: "https://github.com/Su-cyber-art/GestaltX")!
+    private let repositoryURL = GestaltBrand.projects
 
     private enum Key {
         static let state = "GestaltX.starPrompt.state"
@@ -54,16 +54,23 @@ struct StarPromptView: View {
             VStack(spacing: 14) {
                 ZStack {
                     Circle()
+                        .fill(GestaltTheme.heroGradient)
+                        .frame(width: 120, height: 120)
+                        .blur(radius: 30)
+                        .opacity(0.5)
+                    Circle()
                         .fill(
-                            LinearGradient(colors: [.yellow, .orange],
+                            LinearGradient(colors: [Color(red: 1.0, green: 0.82, blue: 0.29), .orange],
                                            startPoint: .topLeading,
                                            endPoint: .bottomTrailing)
                         )
-                        .frame(width: 64, height: 64)
+                        .frame(width: 72, height: 72)
+                        .shadow(color: .orange.opacity(0.4), radius: 12, y: 6)
                     Image(systemName: "star.fill")
-                        .font(.system(size: 28, weight: .bold))
+                        .font(.system(size: 32, weight: .bold))
                         .foregroundStyle(.white)
                 }
+                .frame(height: 96)
 
                 VStack(spacing: 7) {
                     Text(L("Enjoying GestaltX?"))
@@ -84,16 +91,20 @@ struct StarPromptView: View {
                     controller.star()
                 } label: {
                     Label(L("Star on GitHub"), systemImage: "star.fill")
+                        .font(.headline)
+                        .foregroundStyle(Color.white)
                         .frame(maxWidth: .infinity)
+                        .frame(height: 52)
+                        .background(Capsule().fill(GestaltTheme.gradient))
+                        .contentShape(Capsule())
                 }
-                .buttonStyle(.borderedProminent)
-                .controlSize(.large)
+                .buttonStyle(.gxPressable)
             }
             .padding(.bottom, 18)
         }
         .padding(.horizontal, 20)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-        .presentationDetents([.height(340)])
+        .presentationDetents([.height(360)])
         .presentationDragIndicator(.visible)
         .presentationCornerRadius(28)
     }

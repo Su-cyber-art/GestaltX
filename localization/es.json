@@ -537,5 +537,8 @@
   "Only parameters with recorded original values can be checked for modifications.": "Solo se pueden comprobar modificaciones en parámetros cuyos valores originales estén registrados.",
   "On": "Activado",
   "Off": "Desactivado",
-  "Custom": "Personalizado"
+  "Custom": "Personalizado",
+  "Releases": "Versiones publicadas",
+  "Maintained by Su-cyber-art": "Mantenido por Su-cyber-art",
+  "Based on the original work by huamidev": "Basado en el trabajo original de huamidev"
 }

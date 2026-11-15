@@ -24,6 +24,7 @@ struct NotificationCaptureView: View {
                 if !capture.capturedSounds.isEmpty { capturedSection }
             }
         }
+        .gxListBackground()
         .navigationTitle(L("Capture Notification Sounds"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
