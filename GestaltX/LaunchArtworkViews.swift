@@ -140,6 +140,7 @@ struct LaunchArtworkApplicationsView: View {
             }
             Section {} footer: { Text(L("Only apps with readable launch images are listed. iOS may refresh these images.")) }
         }
+        .gxListBackground()
         .navigationTitle(L("App Launch Images"))
         .navigationBarTitleDisplayMode(.inline)
         .searchable(text: $search)
@@ -203,6 +204,7 @@ private struct LaunchArtworkEditor: View {
             }
         }
         .disabled(model.busy)
+        .gxListBackground()
         .navigationTitle(app.name)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar { ToolbarItem(placement: .topBarTrailing) { if model.busy { ProgressView() } } }

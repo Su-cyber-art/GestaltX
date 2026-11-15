@@ -537,5 +537,8 @@
   "Only parameters with recorded original values can be checked for modifications.": "元の値が記録されているパラメータのみ、変更の有無を確認できます。",
   "On": "オン",
   "Off": "オフ",
-  "Custom": "カスタム"
+  "Custom": "カスタム",
+  "Releases": "リリース",
+  "Maintained by Su-cyber-art": "Su-cyber-art によるメンテナンス",
+  "Based on the original work by huamidev": "huamidev による原作をベースにしています"
 }

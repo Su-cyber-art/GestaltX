@@ -4,14 +4,14 @@
 
 <h1 align="center">GestaltX</h1>
 
-[![Version](https://img.shields.io/badge/version-1.4.0-blue)](https://github.com/Su-cyber-art/GestaltX)
+[![Version](https://img.shields.io/badge/version-1.5.0-blue)](https://github.com/Su-cyber-art/GestaltX)
 [![Platform](https://img.shields.io/badge/iOS-27.x-black?logo=apple)](#호환성)
 [![SwiftUI](https://img.shields.io/badge/Swift-SwiftUI-orange?logo=swift)](https://github.com/Su-cyber-art/GestaltX)
 [![License](https://img.shields.io/badge/license-GPLv3-blue)](LICENSE)
 
 [English](README.md) · [简体中文](README_ZH-CN.md) · [日本語](README_JA.md) · [한국어](README_KO.md)
 
-iPhone과 iPad용 MobileGestalt 편집기입니다. [huamidev](https://github.com/huamidev)가 개발했습니다.
+iPhone과 iPad용 MobileGestalt 편집기입니다. 이 포크는 huamidev의 원작을 기반으로 [Su-cyber-art](https://github.com/Su-cyber-art/GestaltX)가 유지 관리합니다.
 
 ## 기능
 
@@ -105,7 +105,7 @@ GestaltX는 iOS 언어 설정을 따릅니다. 기본 언어는 영어이며, �
 
 ## 라이선스
 
-[GNU GPL v3](LICENSE) · Copyright © 2026 huamidev.
+[GNU GPL v3](LICENSE) · Copyright © 2026 huamidev and contributors. Maintained by [Su-cyber-art](https://github.com/Su-cyber-art/GestaltX).
 
 ## 스타 기록
 

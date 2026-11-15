@@ -6,62 +6,129 @@ struct AboutView: View {
     @EnvironmentObject private var model: GestaltManager
     var body: some View {
         List {
+            Section { hero }
+                .listRowBackground(Color.clear)
+                .listRowInsets(EdgeInsets())
             Section {
-                HStack(spacing: 12) {
-                    BrandMark(size: 44)
-                    VStack(alignment: .leading, spacing: 3) {
-                        Text("GestaltX").font(.headline)
-                    }
-                }.padding(.vertical, 6)
                 Link(destination: GestaltBrand.projects) {
-                    Label { Text(L("GitHub Repository")) } icon: {
-                        Image("GitHubMark").renderingMode(.template).resizable().scaledToFit()
-                            .frame(width: 22, height: 22).foregroundStyle(Color(uiColor: .label))
+                    linkRow(L("GitHub Repository"), detail: GestaltBrand.repositoryName) { GitHubChip() }
+                }
+                Link(destination: GestaltBrand.releases) {
+                    linkRow(L("Releases"), detail: "v" + GestaltBrand.version) {
+                        IconChip(systemName: "shippingbox.fill", tint: GestaltTheme.accent, size: 32, filled: true)
                     }
                 }
             }
             Section {
-                LabeledContent(L("Supported OS"), value: VersionSupport.range)
-                NavigationLink { CompatibilityView() } label: { Label(L("Compatibility"), systemImage: "iphone.badge.checkmark") }
+                LabeledContent {
+                    GXCapsule(text: VersionSupport.range, tint: GestaltTheme.positive, systemImage: "checkmark.seal.fill")
+                } label: {
+                    Label { Text(L("Supported OS")) } icon: {
+                        IconChip(systemName: "iphone.gen3", tint: GestaltTheme.positive, size: 32, filled: true)
+                    }
+                }
+                NavigationLink { CompatibilityView() } label: {
+                    Label { Text(L("Compatibility")) } icon: {
+                        IconChip(systemName: "iphone.badge.checkmark", tint: Color(red: 0.200, green: 0.522, blue: 0.965), size: 32, filled: true)
+                    }
+                }
             }
             Section(L("Special Thanks")) {
                 Link(destination: URL(string: "https://github.com/forcequitOS/worse_query")!) {
-                    HStack(spacing: 12) {
-                        Image(systemName: "cpu").font(.title3).foregroundStyle(Color.gestaltAccent)
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("worse_query").font(.headline).foregroundStyle(.primary)
-                            Text("forcequitOS · Taj C").font(.caption).foregroundStyle(.secondary)
-                        }
-                        Spacer()
-                        Image(systemName: "arrow.up.right").font(.caption).foregroundStyle(.tertiary)
-                    }.padding(.vertical, 6)
+                    linkRow("worse_query", detail: "forcequitOS · Taj C") {
+                        IconChip(systemName: "cpu", tint: GestaltTheme.accentPink, size: 32, filled: true)
+                    }
                 }
             }
             Section {
-                NavigationLink { CreditsView() } label: { Label(L("Credits & Licenses"), systemImage: "text.book.closed") }
+                NavigationLink { CreditsView() } label: {
+                    Label { Text(L("Credits & Licenses")) } icon: {
+                        IconChip(systemName: "text.book.closed.fill", tint: Color(uiColor: .systemGray), size: 32, filled: true)
+                    }
+                }
             } footer: {
                 aboutFooter.padding(.top, 8)
             }
         }
+        .gxListBackground()
         .listSectionSpacing(20)
         .safeAreaPadding(.bottom, 20)
         .navigationTitle(L("About"))
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private var hero: some View {
+        VStack(spacing: 12) {
+            ZStack {
+                Circle()
+                    .fill(GestaltTheme.heroGradient)
+                    .frame(width: 150, height: 150)
+                    .blur(radius: 46)
+                    .opacity(0.55)
+                BrandMark(size: 96)
+                    .shadow(color: GestaltTheme.accent.opacity(0.35), radius: 18, y: 8)
+            }
+            .frame(height: 120)
+            Text(verbatim: "GestaltX")
+                .font(.system(.title, design: .rounded).weight(.bold))
+            Text(L("MobileGestalt Editor"))
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+            HStack(spacing: 6) {
+                GXCapsule(text: "v\(GestaltBrand.version) (\(GestaltBrand.build))", tint: GestaltTheme.accent)
+                GXCapsule(text: GestaltBrand.buildDate, tint: Color(uiColor: .systemGray), systemImage: "calendar")
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 18)
+    }
+
+    private func linkRow<Icon: View>(_ title: String, detail: String?, @ViewBuilder icon: () -> Icon) -> some View {
+        HStack(spacing: 12) {
+            icon()
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title).foregroundStyle(.primary)
+                if let detail {
+                    Text(verbatim: detail).font(.caption).foregroundStyle(.secondary)
+                }
+            }
+            Spacer(minLength: 8)
+            Image(systemName: "arrow.up.right")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.tertiary)
+        }
+        .padding(.vertical, 2)
     }
 
     private var aboutFooter: some View {
         let year = Calendar.current.component(.year, from: .now)
-        return VStack(spacing: 8) {
-            Text("Version: \(GestaltBrand.version) (\(GestaltBrand.build))")
+        return VStack(spacing: 6) {
+            Text(L("Maintained by Su-cyber-art"))
                 .foregroundStyle(.secondary)
-            Text("Developed by huamidev")
-                .foregroundStyle(.secondary.opacity(0.7))
-            Text("© \(String(year)) huamidev. All rights reserved.")
-                .foregroundStyle(.secondary.opacity(0.5))
+            Text(L("Based on the original work by huamidev"))
+                .foregroundStyle(.secondary.opacity(0.75))
+            Text(verbatim: "© \(String(year)) \(GestaltBrand.originalAuthor) & contributors · GNU GPL v3")
+                .foregroundStyle(.secondary.opacity(0.55))
         }
         .font(.caption)
         .multilineTextAlignment(.center)
         .frame(maxWidth: .infinity)
         .padding(.vertical, 8)
+    }
+}
+
+/// The GitHub mark on an inverted rounded chip.
+private struct GitHubChip: View {
+    var body: some View {
+        RoundedRectangle(cornerRadius: 32 * 0.3, style: .continuous)
+            .fill(Color(uiColor: .label))
+            .frame(width: 32, height: 32)
+            .overlay {
+                Image("GitHubMark").renderingMode(.template).resizable().scaledToFit()
+                    .frame(width: 18, height: 18)
+                    .foregroundStyle(Color(uiColor: .systemBackground))
+            }
+            .accessibilityHidden(true)
     }
 }
 
@@ -84,6 +151,7 @@ struct CreditsView: View {
                 licensedCredit("idevice", author: "Jackson Coxson", license: "MIT", file: "idevice-MIT", url: "https://github.com/jkcoxson/idevice")
             }
         }
+        .gxListBackground()
         .navigationTitle(L("Credits & Licenses"))
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -121,7 +189,9 @@ struct CompatibilityView: View {
                 Text(L("NeoSpring attempts a SpringBoard refresh using WebKit. Its effectiveness varies by OS build. Some MobileGestalt changes may still need a manual device restart."))
                     .font(.subheadline).foregroundStyle(.secondary)
             }
-        }.navigationTitle(L("Compatibility"))
+        }
+        .gxListBackground()
+        .navigationTitle(L("Compatibility"))
     }
 }
 struct LicenseTextView: View {
