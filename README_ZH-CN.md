@@ -4,14 +4,14 @@
 
 <h1 align="center">GestaltX</h1>
 
-[![Version](https://img.shields.io/badge/version-1.5.0-blue)](https://github.com/Su-cyber-art/GestaltX)
+[![Version](https://img.shields.io/badge/version-1.3.0-blue)](https://github.com/huamidev/GestaltX)
 [![Platform](https://img.shields.io/badge/iOS-27.x-black?logo=apple)](#兼容性)
-[![SwiftUI](https://img.shields.io/badge/Swift-SwiftUI-orange?logo=swift)](https://github.com/Su-cyber-art/GestaltX)
+[![SwiftUI](https://img.shields.io/badge/Swift-SwiftUI-orange?logo=swift)](https://github.com/huamidev/GestaltX)
 [![License](https://img.shields.io/badge/license-GPLv3-blue)](LICENSE)
 
 [English](README.md) · [简体中文](README_ZH-CN.md) · [日本語](README_JA.md) · [한국어](README_KO.md)
 
-适用于 iPhone 和 iPad 的 MobileGestalt 编辑工具。本仓库由 [Su-cyber-art](https://github.com/Su-cyber-art/GestaltX) 维护，基于 huamidev 的原始作品。
+适用于 iPhone 和 iPad 的 MobileGestalt 编辑工具，由 [huamidev](https://github.com/huamidev) 开发。
 
 ## 一键解锁
 
@@ -105,14 +105,14 @@ GestaltX 跟随 iOS 的语言设置，默认及回退语言为英语。波斯语
 
 ## 许可证
 
-[GNU GPL v3](LICENSE) · Copyright © 2026 huamidev 及贡献者。本仓库由 [Su-cyber-art](https://github.com/Su-cyber-art/GestaltX) 维护。
+[GNU GPL v3](LICENSE) · Copyright © 2026 huamidev。
 
 ## Star History
 
-<a href="https://www.star-history.com/#Su-cyber-art/GestaltX&Date">
+<a href="https://www.star-history.com/#huamidev/GestaltX&Date">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Su-cyber-art/GestaltX&amp;type=Date&amp;theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Su-cyber-art/GestaltX&amp;type=Date" />
-    <img width="480" alt="GestaltX Star 增长历史" src="https://api.star-history.com/svg?repos=Su-cyber-art/GestaltX&amp;type=Date" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=huamidev/GestaltX&amp;type=Date&amp;theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=huamidev/GestaltX&amp;type=Date" />
+    <img width="480" alt="GestaltX Star 增长历史" src="https://api.star-history.com/svg?repos=huamidev/GestaltX&amp;type=Date" />
   </picture>
 </a>

@@ -4,14 +4,14 @@
 
 <h1 align="center">GestaltX</h1>
 
-[![Version](https://img.shields.io/badge/version-1.5.0-blue)](https://github.com/Su-cyber-art/GestaltX)
+[![Version](https://img.shields.io/badge/version-1.3.0-blue)](https://github.com/huamidev/GestaltX)
 [![Platform](https://img.shields.io/badge/iOS-27.x-black?logo=apple)](#호환성)
-[![SwiftUI](https://img.shields.io/badge/Swift-SwiftUI-orange?logo=swift)](https://github.com/Su-cyber-art/GestaltX)
+[![SwiftUI](https://img.shields.io/badge/Swift-SwiftUI-orange?logo=swift)](https://github.com/huamidev/GestaltX)
 [![License](https://img.shields.io/badge/license-GPLv3-blue)](LICENSE)
 
 [English](README.md) · [简体中文](README_ZH-CN.md) · [日本語](README_JA.md) · [한국어](README_KO.md)
 
-iPhone과 iPad용 MobileGestalt 편집기입니다. 이 포크는 huamidev의 원작을 기반으로 [Su-cyber-art](https://github.com/Su-cyber-art/GestaltX)가 유지 관리합니다.
+iPhone과 iPad용 MobileGestalt 편집기입니다. [huamidev](https://github.com/huamidev)가 개발했습니다.
 
 ## 기능
 
@@ -105,14 +105,14 @@ GestaltX는 iOS 언어 설정을 따릅니다. 기본 언어는 영어이며, �
 
 ## 라이선스
 
-[GNU GPL v3](LICENSE) · Copyright © 2026 huamidev and contributors. Maintained by [Su-cyber-art](https://github.com/Su-cyber-art/GestaltX).
+[GNU GPL v3](LICENSE) · Copyright © 2026 huamidev.
 
 ## 스타 기록
 
-<a href="https://www.star-history.com/#Su-cyber-art/GestaltX&Date">
+<a href="https://www.star-history.com/#huamidev/GestaltX&Date">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Su-cyber-art/GestaltX&amp;type=Date&amp;theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Su-cyber-art/GestaltX&amp;type=Date" />
-    <img width="480" alt="GestaltX 스타 기록" src="https://api.star-history.com/svg?repos=Su-cyber-art/GestaltX&amp;type=Date" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=huamidev/GestaltX&amp;type=Date&amp;theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=huamidev/GestaltX&amp;type=Date" />
+    <img width="480" alt="GestaltX 스타 기록" src="https://api.star-history.com/svg?repos=huamidev/GestaltX&amp;type=Date" />
   </picture>
 </a>

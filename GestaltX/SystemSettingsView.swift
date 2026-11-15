@@ -129,7 +129,6 @@ struct SystemSettingsView: View {
             }
         }
         .disabled(model.isBusy)
-        .gxListBackground()
         .navigationTitle(L("System Settings"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar { ToolbarItem(placement: .topBarTrailing) { if model.isBusy { ProgressView() } } }

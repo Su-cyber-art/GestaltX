@@ -284,7 +284,6 @@ struct AppSoundApplicationsView: View {
             }
             if !catalog.scanning && catalog.applications.isEmpty { ContentUnavailableView(L("No Notification Sounds"), systemImage: "bell") }
         }
-        .gxListBackground()
         .navigationTitle(L("App Audio Library"))
         .navigationBarTitleDisplayMode(.inline)
         .searchable(text: $search)
@@ -374,7 +373,6 @@ private struct AppSoundFilesView: View {
                 Section {} footer: { Text(L("Not every sound listed is the current notification sound. Preview the sounds before replacing one.")) }
             }
         }
-        .gxListBackground()
         .navigationTitle(app.name).navigationBarTitleDisplayMode(.inline)
         .searchable(text: $search)
         .toolbar { ToolbarItem(placement: .topBarTrailing) {
@@ -421,7 +419,6 @@ private struct AppSoundEditor: View {
             }
         }
         .disabled(model.busy)
-        .gxListBackground()
         .navigationTitle((entry.path as NSString).lastPathComponent).navigationBarTitleDisplayMode(.inline)
         .toolbar { ToolbarItem(placement: .topBarTrailing) { if model.busy { ProgressView() } } }
         .task { await model.select(entry, app: app) }
@@ -490,7 +487,6 @@ private struct AppSoundCapturedEditor: View {
             }
         }
         .disabled(model.busy)
-        .gxListBackground()
         .navigationTitle(clue.cleanFilename).navigationBarTitleDisplayMode(.inline)
         .toolbar { ToolbarItem(placement: .topBarTrailing) { if model.busy { ProgressView() } } }
         .onChange(of: presenting, initial: true) { _, value in customizations.setPresenting(value, owner: presentationOwner) }

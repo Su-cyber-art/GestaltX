@@ -2,38 +2,6 @@
 
 English | [简体中文](CHANGELOG_ZH-CN.md)
 
-## [1.5.0] - 2026-11-15
-
-Build `11151700`.
-
-### Changed
-
-- Complete visual redesign built on a shared card-based design system (ambient page background, cards, tinted icon chips, capsule badges and before/after value blocks).
-- Tools is now a dashboard: a gradient device hero card with connection status and the read button, a live modification status card, a One-Click Unlock card, a MobileGestalt category grid with staged-edit badges, customization tiles and a quick actions grid.
-- Staged edits appear in a floating Liquid Glass bar with Review and Discard, available from anywhere on the Tools page.
-- Category screens get a header, clearer preset rows that show the staged action, and Revert buttons only where a revert is possible.
-- MG Control rows show color-coded type badges; Review Changes and Modified Parameters show red/green before-and-after diffs with a pinned Apply button.
-- Backups, Welcome, About, Session Log and the star prompt were redesigned to match.
-- About links to this repository and its releases and credits the original author. README, notices and in-app links point to Su-cyber-art/GestaltX.
-
-**Full Changelog**: https://github.com/Su-cyber-art/GestaltX/compare/v1.4.0...v1.5.0
-
-## [1.4.0] - 2026-11-15
-
-Build `11152200`.
-
-### Added
-
-- MobileGestalt parameter rows now show each capability's live state (On / Off / Custom) on the trailing edge, read from the previewed document, so the menus are no longer blind. The current action is checkmarked and a staged edit shows a pencil mark.
-- The Region Code, Sales Region and Model Number pickers show the current value.
-
-### Changed
-
-- New indigo-violet accent and gradient theme with reusable state components, and a gradient One-Click Unlock card. The accent color asset was updated for light and dark mode.
-- In-app repository links and README badges point to this fork.
-
-**Full Changelog**: https://github.com/Su-cyber-art/GestaltX/compare/v1.3.0...v1.4.0
-
 ## [1.3.0] - 2026-11-14
 
 Build `11142151`.

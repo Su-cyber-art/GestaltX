@@ -229,35 +229,6 @@ final class GestaltManager: ObservableObject {
         } catch { failed(error); await reloadBackups() }
     }
 
-    /// Resolve a capability's current state from the previewed document, using
-    /// the same value comparison the staging/diff code relies on so the badge
-    /// agrees with what Apply would write. Staged edits are reflected because
-    /// `preview` already applies them.
-    func state(of capability: Capability) -> CapabilityState {
-        guard let document = preview else { return .off }
-        var sawOn = false, sawOff = false, sawOther = false
-        for key in capability.keys {
-            let target = capability.values?[key] ?? capability.enabled
-            if let value = document.extra[key] {
-                if GestaltDocument.valuesEqual(value, target) { sawOn = true }
-                else if let number = value as? NSNumber, number == NSNumber(value: 0) { sawOff = true }
-                else { sawOther = true }
-            } else {
-                sawOff = true
-            }
-        }
-        if sawOther || (sawOn && sawOff) { return .custom }
-        return sawOn ? .on : .off
-    }
-
-    /// The current effective string value for a raw key (region, model number),
-    /// shown as a caption so those pickers are no longer blind either.
-    func currentText(for key: String) -> String? {
-        guard let value = preview?.extra[key] else { return nil }
-        let text = PlistValueKind.detect(value).text(for: value)
-        return text.isEmpty ? nil : text
-    }
-
     func canRestore(_ capability: Capability) -> Bool {
         guard !isBusy, let snapshot, let working else { return false }
         if (choices[capability.id] ?? .keep) != .keep { return true }

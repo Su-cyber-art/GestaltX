@@ -200,18 +200,3 @@ struct FieldDraft: Identifiable {
         return try kind.parse(text)
     }
 }
-
-/// The resolved live state of a capability, computed from the previewed
-/// document so the parameter rows can show what the value actually is now
-/// instead of only the staged action ("Keep Current").
-enum CapabilityState: Equatable {
-    case on, off, custom
-    /// Localization key, resolved through `L(_:)` at the view layer.
-    var title: String {
-        switch self {
-        case .on: "On"
-        case .off: "Off"
-        case .custom: "Custom"
-        }
-    }
-}

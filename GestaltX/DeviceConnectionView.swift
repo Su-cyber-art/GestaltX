@@ -23,7 +23,6 @@ struct DeviceConnectionView: View {
 
             pairingSection
         }
-        .gxListBackground()
         .navigationTitle(L("Device Pairing"))
         .navigationBarTitleDisplayMode(.inline)
         .task { connection.load() }
